@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)file:///Users/hb/Downloads/index_3.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanna's Reno Dashboard</title>
+  <link rel="stylesheet" href="./Renovation Dashboard_files/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link href="./Renovation Dashboard_files/css2" rel="stylesheet">
+  <style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sand: #F5F0E8;
+  --sand-dark: #EDE6D6;
+  --sand-border: #DDD5C0;
+  --brass: #B8860B;
+  --brass-light: #D4A843;
+  --brass-pale: #FBF3DC;
+  --teal: #2A7A6B;
+  --teal-light: #3A9B89;
+  --teal-pale: #E6F4F1;
+  --coral: #C0522A;
+  --coral-pale: #FAEDE6;
+  --ink: #1E1A14;
+  --ink-soft: #4A4236;
+  --ink-muted: #7A7060;
+  --ink-faint: #A89E8C;
+  --white: #FFFDFА;
+  --white: #FEFCF8;
+  --danger: #B83232;
+  --danger-pale: #FAEAEA;
+  --warn: #9B6A00;
+  --warn-pale: #FDF3DC;
+  --success: #2A7A4A;
+  --success-pale: #E6F4EC;
+  --info: #1E5A8A;
+  --info-pale: #E6EEF8;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(30,26,20,0.08);
+  --shadow-md: 0 4px 12px rgba(30,26,20,0.10);
+  --font: 'Inter', -apple-system, sans-serif;
+  --font-display: 'Georgia', serif;
+  --sidebar-w: 230px;
+}
+
+html, body { height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--sand);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── Layout ── */
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--ink);
+  color: #C8C0B0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.sidebar-brand {
+  padding: 22px 18px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-brand .brand-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--brass-light);
+  letter-spacing: 0.01em;
+}
+.sidebar-brand .brand-sub {
+  font-size: 11px;
+  color: #7A7060;
+  margin-top: 3px;
+}
+.sidebar-brand .brand-budget {
+  margin-top: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.sidebar-brand .budget-label { font-size: 10px; color: #7A7060; text-transform: uppercase; letter-spacing: 0.06em; }
+.sidebar-brand .budget-track {
+  display: flex; align-items: center; gap: 8px; margin-top: 4px;
+}
+.sidebar-brand .budget-bar-bg {
+  flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;
+}
+.sidebar-brand .budget-bar-fill {
+  height: 4px; border-radius: 2px; background: var(--brass-light); transition: width 0.4s;
+}
+.sidebar-brand .budget-text { font-size: 11px; color: var(--brass-light); white-space: nowrap; }
+
+.nav-section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5A5248;
+  padding: 16px 18px 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px;
+  font-size: 13px;
+  color: #A09080;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); color: #D4C8B0; }
+.nav-item.active { background: rgba(184,134,11,0.12); color: var(--brass-light); border-left-color: var(--brass-light); }
+.nav-item i { font-size: 16px; opacity: 0.8; }
+.nav-spacer { flex: 1; }
+.sidebar-footer {
+  padding: 14px 18px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px;
+  color: #5A5248;
+}
+
+/* ── Main area ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--sand-border);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.topbar-left h1 { font-size: 18px; font-weight: 600; color: var(--ink); }
+.topbar-left .topbar-sub { font-size: 12px; color: var(--ink-muted); margin-top: 1px; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; font-size: 13px; font-weight: 500;
+  border-radius: var(--radius-sm); border: 1px solid var(--sand-border);
+  background: var(--white); color: var(--ink-soft);
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.btn:hover { background: var(--sand); border-color: #C8BEA8; }
+.btn-primary { background: var(--teal); color: white; border-color: var(--teal); }
+.btn-primary:hover { background: var(--teal-light); border-color: var(--teal-light); }
+.btn-brass { background: var(--brass); color: white; border-color: var(--brass); }
+.btn-brass:hover { background: var(--brass-light); }
+.btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn-icon { padding: 7px; }
+
+/* ── Cards ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--sand-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.card-sub { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+
+/* ── Metric cards ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.metric-card {
+  background: var(--white);
+  border: 1px solid var(--sand-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.metric-label { font-size: 11px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.metric-value { font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.1; }
+.metric-sub { font-size: 11px; color: var(--ink-faint); margin-top: 4px; }
+.metric-bar-bg { height: 3px; background: var(--sand-dark); border-radius: 2px; margin-top: 10px; }
+.metric-bar-fill { height: 3px; border-radius: 2px; background: var(--teal); transition: width 0.5s; }
+.metric-bar-fill.warn { background: var(--brass); }
+.metric-bar-fill.danger { background: var(--danger); }
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500;
+  padding: 2px 8px; border-radius: 20px;
+}
+.badge-danger { background: var(--danger-pale); color: var(--danger); }
+.badge-warn { background: var(--warn-pale); color: var(--warn); }
+.badge-success { background: var(--success-pale); color: var(--success); }
+.badge-info { background: var(--info-pale); color: var(--info); }
+.badge-neutral { background: var(--sand-dark); color: var(--ink-soft); }
+.badge-brass { background: var(--brass-pale); color: var(--brass); }
+
+/* ── Forms ── */
+.form-row { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.form-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 120px; }
+.form-field label { font-size: 11px; color: var(--ink-muted); font-weight: 500; }
+input[type="text"], input[type="number"], input[type="date"], input[type="url"], input[type="email"], select, textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--sand-border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 13px;
+  font-family: var(--font);
+  width: 100%;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(42,122,107,0.1);
+}
+textarea { resize: vertical; min-height: 70px; }
+
+/* ── Tables ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th {
+  text-align: left; font-size: 11px; font-weight: 600;
+  color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 8px 12px; border-bottom: 1px solid var(--sand-border);
+}
+.data-table td { padding: 11px 12px; border-bottom: 1px solid var(--sand-dark); color: var(--ink-soft); vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--sand); }
+.data-table .actions { display: flex; gap: 6px; }
+
+/* ── Priority dots ── */
+.priority-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block;
+}
+.priority-high { background: var(--danger); }
+.priority-med { background: var(--brass); }
+.priority-low { background: var(--teal); }
+
+/* ── Checkbox ── */
+.check-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.check-box {
+  width: 18px; height: 18px; border-radius: 4px;
+  border: 1.5px solid var(--sand-border);
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; cursor: pointer; transition: all 0.15s;
+}
+.check-box.checked { background: var(--teal); border-color: var(--teal); }
+.check-box.checked::after { content: '✓'; color: white; font-size: 11px; font-weight: 700; }
+.check-label.done { color: var(--ink-faint); text-decoration: line-through; }
+
+/* ── Timeline ── */
+.timeline { padding: 4px 0; }
+.timeline-item { display: flex; gap: 14px; padding-bottom: 20px; position: relative; }
+.timeline-item::before {
+  content: ''; position: absolute; left: 11px; top: 20px;
+  width: 1px; height: calc(100% - 8px);
+  background: var(--sand-border);
+}
+.timeline-item:last-child::before { display: none; }
+.tl-dot {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; border: 2px solid;
+  z-index: 1; position: relative;
+}
+.tl-dot.done { background: var(--teal); border-color: var(--teal); color: white; }
+.tl-dot.active { background: var(--brass-pale); border-color: var(--brass); color: var(--brass); }
+.tl-dot.pending { background: var(--white); border-color: var(--sand-border); color: var(--ink-faint); }
+.tl-dot.goal { background: var(--coral-pale); border-color: var(--coral); color: var(--coral); }
+.tl-content { flex: 1; padding-top: 1px; }
+.tl-title { font-size: 13px; font-weight: 500; color: var(--ink); }
+.tl-meta { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+
+/* ── Progress bar ── */
+.progress-bar { height: 6px; background: var(--sand-dark); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--teal); border-radius: 3px; transition: width 0.4s; }
+.progress-fill.warn { background: var(--brass); }
+.progress-fill.danger { background: var(--danger); }
+
+/* ── Tabs ── */
+.tab-bar {
+  display: flex; border-bottom: 1px solid var(--sand-border);
+  margin-bottom: 16px; gap: 0;
+}
+.tab {
+  padding: 9px 16px; font-size: 13px; color: var(--ink-muted);
+  cursor: pointer; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: all 0.15s; white-space: nowrap;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 500; }
+
+/* ── Modal ── */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(30,26,20,0.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
+}
+.modal-backdrop.hidden { display: none; }
+.modal {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-header {
+  padding: 20px 20px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title { font-size: 16px; font-weight: 600; }
+.modal-body { padding: 16px 20px 20px; }
+.modal-footer { padding: 12px 20px 20px; display: flex; gap: 8px; justify-content: flex-end; }
+
+/* ── View toggling ── */
+.view { display: none; }
+.view.active { display: block; }
+
+/* ── Empty states ── */
+.empty-state {
+  text-align: center; padding: 48px 24px; color: var(--ink-muted);
+}
+.empty-state i { font-size: 40px; opacity: 0.3; display: block; margin-bottom: 12px; }
+.empty-state h3 { font-size: 15px; font-weight: 500; color: var(--ink-soft); margin-bottom: 6px; }
+.empty-state p { font-size: 13px; }
+
+/* ── Budget bar ── */
+.budget-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.budget-cat { font-size: 12px; color: var(--ink-soft); width: 120px; flex-shrink: 0; }
+.budget-bar-wrap { flex: 1; height: 6px; background: var(--sand-dark); border-radius: 3px; overflow: hidden; }
+.budget-bar-inner { height: 6px; border-radius: 3px; transition: width 0.4s; }
+.budget-amt { font-size: 12px; color: var(--ink); width: 90px; text-align: right; flex-shrink: 0; }
+
+/* ── Trade avatar ── */
+.trade-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; flex-shrink: 0;
+}
+
+/* ── Grid layouts ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+
+/* ── Notification dot ── */
+.notif-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--coral); display: inline-block; margin-left: 4px;
+}
+
+/* ── Photo/doc grid ── */
+.doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.doc-card {
+  border: 1px dashed var(--sand-border);
+  border-radius: var(--radius-md);
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--ink-muted);
+}
+.doc-card:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-pale); }
+.doc-card i { font-size: 28px; display: block; margin-bottom: 8px; }
+.doc-card span { font-size: 12px; }
+
+/* ── Section divider ── */
+.section-label {
+  font-size: 11px; font-weight: 600; color: var(--ink-faint);
+  text-transform: uppercase; letter-spacing: 0.07em;
+  margin-bottom: 10px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sand-border); border-radius: 3px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sidebar { width: 56px; }
+  .sidebar-brand .brand-title, .sidebar-brand .brand-sub, .sidebar-brand .brand-budget,
+  .nav-section-label, .nav-item span, .sidebar-footer { display: none; }
+  .nav-item { justify-content: center; padding: 12px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--ink); color: #E8E0D0;
+  padding: 10px 16px; border-radius: var(--radius-md);
+  font-size: 13px; z-index: 2000;
+  box-shadow: var(--shadow-md);
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.3s;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── Sidebar ── -->
+  <nav class="sidebar" aria-label="Main navigation">
+    <div class="sidebar-brand">
+      <div class="brand-title">🏡 Hanna's Reno</div>
+      <div class="brand-sub">$50,000 budget · Sep 2025</div>
+      <div class="brand-budget">
+        <div class="budget-label">Budget used</div>
+        <div class="budget-track">
+          <div class="budget-bar-bg"><div class="budget-bar-fill" id="sb-budget-fill" style="width:0%"></div></div>
+          <span class="budget-text" id="sb-budget-text">$0 / $50,000</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item active" data-view="dashboard" onclick="showView(&#39;dashboard&#39;)"><i class="ti ti-layout-dashboard" aria-hidden="true"></i><span>Dashboard</span></a>
+    <a class="nav-item" data-view="timeline" onclick="showView(&#39;timeline&#39;)"><i class="ti ti-calendar" aria-hidden="true"></i><span>Timeline</span></a>
+
+    <div class="nav-section-label">Work</div>
+    <a class="nav-item" data-view="tasks" onclick="showView(&#39;tasks&#39;)"><i class="ti ti-checkbox" aria-hidden="true"></i><span>Tasks</span></a>
+    <a class="nav-item" data-view="trades" onclick="showView(&#39;trades&#39;)"><i class="ti ti-users" aria-hidden="true"></i><span>Trades &amp; Contacts</span></a>
+    <a class="nav-item" data-view="orders" onclick="showView(&#39;orders&#39;)"><i class="ti ti-package" aria-hidden="true"></i><span>Orders &amp; Parts</span></a>
+    <a class="nav-item" data-view="decisions" onclick="showView(&#39;decisions&#39;)"><i class="ti ti-clipboard-list" aria-hidden="true"></i><span>Planning</span></a>
+
+    <div class="nav-section-label">Money</div>
+    <a class="nav-item" data-view="budget" onclick="showView(&#39;budget&#39;)"><i class="ti ti-report-money" aria-hidden="true"></i><span>Budget</span></a>
+    <a class="nav-item" data-view="invoices" onclick="showView(&#39;invoices&#39;)"><i class="ti ti-file-invoice" aria-hidden="true"></i><span>Invoices</span></a>
+
+    <div class="nav-section-label">Assets</div>
+    <a class="nav-item" data-view="docs" onclick="showView(&#39;docs&#39;)"><i class="ti ti-photo" aria-hidden="true"></i><span>Photos &amp; Docs</span></a>
+
+    <div class="nav-spacer"></div>
+    <a class="nav-item" data-view="settings" onclick="showView(&#39;settings&#39;)"><i class="ti ti-settings" aria-hidden="true"></i><span>Settings</span></a>
+    <div class="sidebar-footer">All data saved locally in your browser</div>
+  </nav>
+
+  <!-- ── Main ── -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1 id="page-title">Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn" onclick="Store.exportJSON()" title="Export backup"><i class="ti ti-download" aria-hidden="true"></i> Backup</button>
+        <button class="btn btn-primary" onclick="openAddTask()"><i class="ti ti-plus" aria-hidden="true"></i> Add task</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div id="view-dashboard" class="view active">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Budget used</div>
+            <div class="metric-value" id="dash-budget-val">$0</div>
+            <div class="metric-sub" id="dash-budget-sub">of $50,000 total</div>
+            <div class="metric-bar-bg"><div class="metric-bar-fill" id="dash-budget-bar" style="width:0%"></div></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Tasks complete</div>
+            <div class="metric-value" id="dash-tasks-val">0%</div>
+            <div class="metric-sub" id="dash-tasks-sub">0 of 18 done</div>
+            <div class="metric-bar-bg"><div class="metric-bar-fill" id="dash-tasks-bar" style="width:0%"></div></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Days to move-in</div>
+            <div class="metric-value" id="dash-days-val">Past!</div>
+            <div class="metric-sub" id="dash-days-sub">Target: Sep 30, 2025</div>
+            <div class="metric-bar-bg"><div class="metric-bar-fill warn" id="dash-days-bar" style="width: 100%;"></div></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Open orders</div>
+            <div class="metric-value" id="dash-orders-val">3</div>
+            <div class="metric-sub" id="dash-orders-sub">0 arriving soon</div>
+            <div class="metric-bar-bg"><div class="metric-bar-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:16px;margin-bottom:16px;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Upcoming milestones</span>
+              <button class="btn btn-sm" onclick="showView(&#39;timeline&#39;)">View all →</button>
+            </div>
+            <div class="timeline" id="dash-milestones"><div class="timeline-item">
+      <div class="tl-dot pending"></div>
+      <div class="tl-content">
+        <div class="tl-title">🔬 Asbestos test complete</div>
+        <div class="tl-meta">Date TBD · Pre-demo</div>
+      </div>
+    </div><div class="timeline-item">
+      <div class="tl-dot active"></div>
+      <div class="tl-content">
+        <div class="tl-title">📋 HVAC reroute contract signed</div>
+        <div class="tl-meta">Jul 15, 2025 · Pre-demo</div>
+      </div>
+    </div><div class="timeline-item">
+      <div class="tl-dot active"></div>
+      <div class="tl-content">
+        <div class="tl-title">📄 All permits pulled</div>
+        <div class="tl-meta">Jul 20, 2025 · Pre-demo</div>
+      </div>
+    </div><div class="timeline-item">
+      <div class="tl-dot active"></div>
+      <div class="tl-content">
+        <div class="tl-title">🔧 HVAC rerouted to attic</div>
+        <div class="tl-meta">Jul 31, 2025 · Rough-in</div>
+      </div>
+    </div><div class="timeline-item">
+      <div class="tl-dot active"></div>
+      <div class="tl-content">
+        <div class="tl-title">🔨 Demo day complete</div>
+        <div class="tl-meta">Aug 7, 2025 · Demo</div>
+      </div>
+    </div></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Open tasks</span>
+              <button class="btn btn-sm" onclick="showView(&#39;tasks&#39;)">View all →</button>
+            </div>
+            <table class="data-table">
+              <tbody id="dash-tasks-list">
+    <tr>
+      <td><span class="priority-dot priority-high" title="High"></span></td>
+      <td>Schedule asbestos inspection</td>
+      <td><span class="badge badge-neutral">DIY</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="quickDoneTask(&#39;t1&#39;)">Done</button></td>
+    </tr>
+  
+    <tr>
+      <td><span class="priority-dot priority-high" title="High"></span></td>
+      <td>Verify main water shut-off works</td>
+      <td><span class="badge badge-neutral">DIY</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="quickDoneTask(&#39;t2&#39;)">Done</button></td>
+    </tr>
+  
+    <tr>
+      <td><span class="priority-dot priority-high" title="High"></span></td>
+      <td>Get 2–3 HVAC reroute quotes</td>
+      <td><span class="badge badge-neutral">HVAC</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="quickDoneTask(&#39;t3&#39;)">Done</button></td>
+    </tr>
+  
+    <tr>
+      <td><span class="priority-dot priority-high" title="High"></span></td>
+      <td>Confirm solar panel ownership / financing status</td>
+      <td><span class="badge badge-neutral">DIY</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="quickDoneTask(&#39;t4&#39;)">Done</button></td>
+    </tr>
+  
+    <tr>
+      <td><span class="priority-dot priority-med" title="Medium"></span></td>
+      <td>Remove toilets &amp; vanities (demo prep)</td>
+      <td><span class="badge badge-neutral">Plumber</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="quickDoneTask(&#39;t5&#39;)">Done</button></td>
+    </tr>
+  
+    <tr>
+      <td><span class="priority-dot priority-med" title="Medium"></span></td>
+      <td>Inspect &amp; test salvaged recessed can lights</td>
+      <td><span class="badge badge-neutral">DIY</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="quickDoneTask(&#39;t6&#39;)">Done</button></td>
+    </tr>
+  </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Budget snapshot</span>
+            <button class="btn btn-sm" onclick="showView(&#39;budget&#39;)">Full budget →</button>
+          </div>
+          <div id="dash-budget-rows"><div class="budget-row">
+      <div class="budget-cat">Kitchen</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:#2A7A6B;width:0%"></div></div>
+      <div class="budget-amt">$12,000</div>
+    </div><div class="budget-row">
+      <div class="budget-cat">Bathrooms</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:#1E5A8A;width:0%"></div></div>
+      <div class="budget-amt">$10,000</div>
+    </div><div class="budget-row">
+      <div class="budget-cat">Contingency</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:#7A7060;width:0%"></div></div>
+      <div class="budget-amt">$10,000</div>
+    </div><div class="budget-row">
+      <div class="budget-cat">HVAC</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:#9B6A00;width:0%"></div></div>
+      <div class="budget-amt">$6,000</div>
+    </div><div class="budget-row">
+      <div class="budget-cat">Flooring</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:#B8860B;width:0%"></div></div>
+      <div class="budget-amt">$5,000</div>
+    </div><div class="budget-row">
+      <div class="budget-cat">Electrical</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:#6B3A9E;width:0%"></div></div>
+      <div class="budget-amt">$4,000</div>
+    </div><div class="budget-row">
+      <div class="budget-cat">Demo &amp; hauling</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:#C0522A;width:0%"></div></div>
+      <div class="budget-amt">$2,000</div>
+    </div></div>
+        </div>
+      </div>
+
+      <!-- ══ TIMELINE ══ -->
+      <div id="view-timeline" class="view">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+          <button class="btn btn-primary" onclick="openAddMilestone()"><i class="ti ti-plus" aria-hidden="true"></i> Add milestone</button>
+        </div>
+        <div class="card">
+          <div class="timeline" id="timeline-list"></div>
+        </div>
+      </div>
+
+      <!-- ══ TASKS ══ -->
+      <div id="view-tasks" class="view">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <input type="text" placeholder="Search tasks..." style="max-width:260px" oninput="searchTasks(this.value)">
+          <button class="btn btn-primary" onclick="openAddTask()"><i class="ti ti-plus" aria-hidden="true"></i> Add task</button>
+        </div>
+        <div class="tab-bar">
+          <div class="tab active" onclick="filterTasks(&#39;all&#39;, this)">All</div>
+          <div class="tab" onclick="filterTasks(&#39;open&#39;, this)">Open</div>
+          <div class="tab" onclick="filterTasks(&#39;DIY&#39;, this)">DIY</div>
+          <div class="tab" onclick="filterTasks(&#39;HVAC&#39;, this)">HVAC</div>
+          <div class="tab" onclick="filterTasks(&#39;Plumber&#39;, this)">Plumber</div>
+          <div class="tab" onclick="filterTasks(&#39;Electrician&#39;, this)">Electrician</div>
+          <div class="tab" onclick="filterTasks(&#39;GC&#39;, this)">GC</div>
+          <div class="tab" onclick="filterTasks(&#39;Contractor&#39;, this)">Contractor</div>
+          <div class="tab" onclick="filterTasks(&#39;done&#39;, this)">Done</div>
+        </div>
+        <div class="card" style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr>
+              <th style="width:16px"></th>
+              <th>Task</th>
+              <th>Trade</th>
+              <th>Due</th>
+              <th>Actions</th>
+            </tr></thead>
+            <tbody id="tasks-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ TRADES ══ -->
+      <div id="view-trades" class="view">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+          <button class="btn btn-primary" onclick="openAddTrade()"><i class="ti ti-plus" aria-hidden="true"></i> Add trade</button>
+        </div>
+        <div class="card" style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr>
+              <th>Trade / Contact</th>
+              <th>Phone</th>
+              <th>Responsibilities</th>
+              <th>Quote</th>
+              <th>Status</th>
+              <th></th>
+            </tr></thead>
+            <tbody id="trades-list"></tbody>
+          </table>
+        </div>
+        <div class="card" style="background:var(--brass-pale);border-color:var(--brass-light);">
+          <div class="card-title" style="color:var(--brass);margin-bottom:8px;">⚡ Sequencing reminder</div>
+          <div style="font-size:13px;color:var(--ink-soft);line-height:1.8;">
+            1. <strong>Asbestos test</strong> → must pass before any cutting or demo<br>
+            2. <strong>HVAC reroute</strong> → must be done before soffit demo<br>
+            3. <strong>Permits pulled</strong> → before any structural, electrical, or plumbing work<br>
+            4. <strong>Toilets + vanities removed</strong> → during demo so tile can go full-floor<br>
+            5. <strong>Rough-in inspections</strong> → before drywall closes everything up
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ ORDERS ══ -->
+      <div id="view-orders" class="view">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <select id="order-filter" onchange="renderOrders()" style="max-width:180px;">
+            <option value="all">All orders</option>
+            <option value="need-to-order">Need to order</option>
+            <option value="ordered">Ordered</option>
+            <option value="in-transit">In transit</option>
+            <option value="delivered">Delivered</option>
+          </select>
+          <button class="btn btn-primary" onclick="openAddOrder()"><i class="ti ti-plus" aria-hidden="true"></i> Add order</button>
+        </div>
+        <div class="card" style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr>
+              <th>Item</th><th>Vendor</th><th>Category</th><th>Cost</th><th>ETA</th><th>Status</th><th></th>
+            </tr></thead>
+            <tbody id="orders-list"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ PLANNING ══ -->
+      <div id="view-decisions" class="view">
+        <div class="tab-bar" id="planning-tab-bar">
+          <div class="tab active" onclick="switchPlanTab(&#39;plan&#39;, this)">Plan</div>
+          <div class="tab" onclick="switchPlanTab(&#39;decided&#39;, this)">Decided</div>
+        </div>
+
+        <!-- Plan tab -->
+        <div id="plan-tab">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <select id="plan-filter-status" onchange="renderPlan()" style="font-size:13px;">
+                <option value="all">All items</option>
+                <option value="necessity">Necessity</option>
+                <option value="nice-to-have">Nice to have</option>
+                <option value="undecided">Undecided</option>
+              </select>
+              <select id="plan-filter-room" onchange="renderPlan()" style="font-size:13px;">
+                <option value="all">All rooms</option>
+                <option>Kitchen</option><option>Living room</option><option>Primary bedroom</option>
+                <option>Bathrooms</option><option>Hallway</option><option>Dining room</option>
+                <option>Backyard</option><option>Whole house</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="openAddPlan()"><i class="ti ti-plus" aria-hidden="true"></i> Add plan item</button>
+          </div>
+          <div id="plan-list"></div>
+        </div>
+
+        <!-- Decided tab -->
+        <div id="decided-tab" style="display:none">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+            <button class="btn btn-primary" onclick="openAddDecision()"><i class="ti ti-plus" aria-hidden="true"></i> Log decision</button>
+          </div>
+          <div id="decisions-list"></div>
+        </div>
+      </div>
+
+      <!-- ══ BUDGET ══ -->
+      <div id="view-budget" class="view">
+        <div class="metrics-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+          <div class="metric-card"><div class="metric-label">Total budget</div><div class="metric-value" id="budget-total">$50,000</div></div>
+          <div class="metric-card"><div class="metric-label">Plan estimates</div><div class="metric-value" id="budget-plan-est" style="color:var(--brass)">—</div><div class="metric-sub" id="budget-plan-sub"></div></div>
+          <div class="metric-card"><div class="metric-label">Spent to date</div><div class="metric-value" id="budget-spent">$0</div></div>
+          <div class="metric-card"><div class="metric-label">Remaining</div><div class="metric-value" id="budget-remaining" style="color:var(--teal)">—</div></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+          <button class="btn btn-primary" onclick="openAddBudget()"><i class="ti ti-plus" aria-hidden="true"></i> Add category</button>
+        </div>
+        <div class="card" style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Category</th><th>Budget</th><th>Plan estimate</th><th>Spent</th><th>Remaining</th><th>Progress</th><th></th></tr></thead>
+            <tbody id="budget-rows"></tbody>
+          </table>
+        </div>
+        <div class="card" style="background:var(--teal-pale);border-color:var(--teal);">
+          <div style="font-size:13px;color:var(--ink-soft);">💡 <strong>Tip:</strong> Track actual spend by adding invoices — the invoice view updates your budget automatically. Keep the $10k contingency untouched until you need it.</div>
+        </div>
+      </div>
+
+      <!-- ══ INVOICES ══ -->
+      <div id="view-invoices" class="view">
+        <div class="metrics-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px;">
+          <div class="metric-card"><div class="metric-label">Total invoiced</div><div class="metric-value" id="inv-total">$0</div></div>
+          <div class="metric-card"><div class="metric-label">Paid</div><div class="metric-value" id="inv-paid" style="color:var(--teal)">$0</div></div>
+          <div class="metric-card"><div class="metric-label">Outstanding</div><div class="metric-value" id="inv-outstanding" style="color:var(--danger)">$0</div></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+          <button class="btn btn-primary" onclick="openAddInvoice()"><i class="ti ti-plus" aria-hidden="true"></i> Add invoice</button>
+        </div>
+        <div class="card" style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Vendor / Description</th><th>Trade</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+            <tbody id="invoices-list"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ PHOTOS & DOCS ══ -->
+      <div id="view-docs" class="view">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Photos &amp; documents</span></div>
+          <p style="font-size:13px;color:var(--ink-muted);margin-bottom:20px;">For file storage, use Google Drive or Dropbox and paste links below. Take before photos of every room before demo begins — you'll be glad you did.</p>
+          <div class="section-label">Quick links</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <i class="ti ti-brand-google-drive" style="font-size:20px;color:#1D9E75" aria-hidden="true"></i>
+              <input type="url" id="link-gdrive" placeholder="Google Drive folder link..." style="flex:1">
+              <button class="btn" onclick="openLink(&#39;link-gdrive&#39;)"><i class="ti ti-external-link" aria-hidden="true"></i></button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <i class="ti ti-home-2" style="font-size:20px;color:#B8860B" aria-hidden="true"></i>
+              <input type="url" id="link-houzz" placeholder="Houzz project link...">
+              <button class="btn" onclick="openLink(&#39;link-houzz&#39;)"><i class="ti ti-external-link" aria-hidden="true"></i></button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <i class="ti ti-layout-2" style="font-size:20px;color:#6B3A9E" aria-hidden="true"></i>
+              <input type="url" id="link-floorplan" placeholder="Floor plan link (RoomGPT, Planner 5D, etc.)...">
+              <button class="btn" onclick="openLink(&#39;link-floorplan&#39;)"><i class="ti ti-external-link" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:12px;">Photo checklist — take these before demo</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;font-size:13px;color:var(--ink-soft);">
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Every room, wide angle</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Kitchen soffits</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Hallway soffits</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Kitchen island (before removal)</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Both bathrooms</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Attic (current condition)</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Electrical panel</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Water shut-off valve</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> All existing HVAC ducts</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Fireplace (corner unit)</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Backyard / exterior</label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox"> Front of house</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SETTINGS ══ -->
+      <div id="view-settings" class="view">
+        <div class="card" style="max-width:560px;">
+          <div class="card-header"><span class="card-title">Project settings</span></div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Project name</label>
+              <input type="text" id="set-projectName">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Property address</label>
+              <input type="text" id="set-address" placeholder="123 Main St, Phoenix AZ">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Total budget ($)</label>
+              <input type="number" id="set-totalBudget">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Move-in target</label><input type="date" id="set-moveInDate"></div>
+            <div class="form-field"><label>Housewarming date</label><input type="date" id="set-housewarmingDate"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Christmas party date</label><input type="date" id="set-christmasDate"></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button class="btn btn-primary" onclick="saveSettings()">Save settings</button>
+          </div>
+        </div>
+        <div class="card" style="max-width:560px;">
+          <div class="card-title" style="margin-bottom:12px;">Data &amp; backup</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn" onclick="Store.exportJSON()"><i class="ti ti-download" aria-hidden="true"></i> Export backup (JSON)</button>
+            <button class="btn" onclick="document.getElementById(&#39;import-file&#39;).click()"><i class="ti ti-upload" aria-hidden="true"></i> Import backup</button>
+            <button class="btn btn-danger" onclick="resetData()"><i class="ti ti-refresh" aria-hidden="true"></i> Reset all data</button>
+          </div>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+          <p style="font-size:12px;color:var(--ink-faint);margin-top:10px;">All data is saved in your browser's localStorage. Export a backup regularly and before clearing browser data.</p>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ── Toast ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- Task modal -->
+<div class="modal-backdrop hidden" id="modal-task" onclick="if(event.target===this)hideModal(&#39;modal-task&#39;)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Task</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-task&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="task-edit-id">
+      <div class="form-row"><div class="form-field"><label>Task description *</label><input type="text" id="task-edit-text" placeholder="What needs to be done?"></div></div>
+      <div class="form-row">
+        <div class="form-field"><label>Trade / owner</label>
+          <select id="task-edit-trade">
+            <option>DIY</option><option>HVAC</option><option>Plumber</option><option>Electrician</option><option>GC</option><option>Contractor</option><option>Inspector</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Priority</label>
+          <select id="task-edit-priority"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Room / area</label><input type="text" id="task-edit-room" placeholder="Kitchen, Bathroom, Whole house..."></div>
+        <div class="form-field"><label>Due date</label><input type="date" id="task-edit-due"></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Notes</label><textarea id="task-edit-notes" placeholder="Context, dependencies, things to remember..."></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-task&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTask()">Save task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Milestone modal -->
+<div class="modal-backdrop hidden" id="modal-milestone" onclick="if(event.target===this)hideModal(&#39;modal-milestone&#39;)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Milestone</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-milestone&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="ms-edit-id">
+      <div class="form-row"><div class="form-field"><label>Milestone name *</label><input type="text" id="ms-edit-title"></div></div>
+      <div class="form-row">
+        <div class="form-field"><label>Start date</label><input type="date" id="ms-edit-startdate"></div>
+        <div class="form-field"><label>Target completion date</label><input type="date" id="ms-edit-date"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Phase</label>
+          <select id="ms-edit-category"><option>Pre-demo</option><option>Demo</option><option>Rough-in</option><option>Finish</option><option>Goal</option></select>
+        </div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Notes</label><textarea id="ms-edit-notes"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-milestone&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="saveMilestone()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade modal -->
+<div class="modal-backdrop hidden" id="modal-trade" onclick="if(event.target===this)hideModal(&#39;modal-trade&#39;)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Trade / Contact</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-trade&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="trade-edit-id">
+      <div class="form-row">
+        <div class="form-field"><label>Name / trade *</label><input type="text" id="trade-edit-name" placeholder="HVAC Contractor, John Smith..."></div>
+        <div class="form-field"><label>Company</label><input type="text" id="trade-edit-company"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Phone</label><input type="text" id="trade-edit-phone"></div>
+        <div class="form-field"><label>Email</label><input type="email" id="trade-edit-email"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Status</label>
+          <select id="trade-edit-status"><option value="urgent">Urgent</option><option value="quoting">Quoting</option><option value="not-hired">Not hired</option><option value="hired">Hired</option><option value="complete">Complete</option></select>
+        </div>
+        <div class="form-field"><label>Quote amount ($)</label><input type="number" id="trade-edit-quoteAmount"></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Responsibilities</label><textarea id="trade-edit-responsibilities" placeholder="What are they doing on this project?"></textarea></div></div>
+      <div class="form-row"><div class="form-field"><label>Notes</label><textarea id="trade-edit-notes"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-trade&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTrade()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Budget modal -->
+<div class="modal-backdrop hidden" id="modal-budget" onclick="if(event.target===this)hideModal(&#39;modal-budget&#39;)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Budget category</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-budget&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="budget-edit-id">
+      <div class="form-row"><div class="form-field"><label>Category name *</label><input type="text" id="budget-edit-category"></div></div>
+      <div class="form-row">
+        <div class="form-field"><label>Budgeted ($)</label><input type="number" id="budget-edit-allocated"></div>
+        <div class="form-field"><label>Spent so far ($)</label><input type="number" id="budget-edit-spent"></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Notes</label><textarea id="budget-edit-notes"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-budget&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="saveBudgetItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Invoice modal -->
+<div class="modal-backdrop hidden" id="modal-invoice" onclick="if(event.target===this)hideModal(&#39;modal-invoice&#39;)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add invoice / receipt</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-invoice&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-field"><label>Vendor / store *</label><input type="text" id="inv-edit-vendor" placeholder="ABC Plumbing, Home Depot..."></div>
+        <div class="form-field"><label>Date</label><input type="date" id="inv-edit-date"></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Description</label><input type="text" id="inv-edit-desc" placeholder="What was this for?"></div></div>
+      <div class="form-row">
+        <div class="form-field"><label>Trade category</label>
+          <select id="inv-edit-trade"><option>HVAC</option><option>Plumber</option><option>Electrician</option><option>GC</option><option>Materials</option><option>Permits</option><option>Other</option></select>
+        </div>
+        <div class="form-field"><label>Amount ($) *</label><input type="number" id="inv-edit-amount"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Budget category <span style="font-size:11px;color:var(--ink-faint)">(auto-updates budget tracker)</span></label>
+          <select id="inv-edit-budgetcat">
+            <option value="">— select category —</option>
+            <option>Kitchen</option><option>Bathrooms</option><option>HVAC</option>
+            <option>Flooring</option><option>Electrical</option><option>Plumbing</option>
+            <option>Demo &amp; hauling</option><option>Insulation</option><option>Backyard</option>
+            <option>Permits &amp; inspections</option><option>Lighting &amp; fixtures</option>
+            <option>Paint</option><option>Contingency</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Status</label>
+          <select id="inv-edit-status"><option value="unpaid">Unpaid</option><option value="paid">Paid</option></select>
+        </div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Notes</label><textarea id="inv-edit-notes" placeholder="Invoice #, payment method, etc."></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-invoice&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="saveInvoice()">Add invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- Order modal -->
+<div class="modal-backdrop hidden" id="modal-order" onclick="if(event.target===this)hideModal(&#39;modal-order&#39;)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Order / part</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-order&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="order-edit-id">
+      <div class="form-row"><div class="form-field"><label>Item name *</label><input type="text" id="order-edit-item" placeholder="What are you ordering?"></div></div>
+      <div class="form-row">
+        <div class="form-field"><label>Vendor / store</label><input type="text" id="order-edit-vendor"></div>
+        <div class="form-field"><label>Category</label><input type="text" id="order-edit-category" placeholder="Kitchen, Electrical..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Cost ($)</label><input type="number" id="order-edit-cost"></div>
+        <div class="form-field"><label>Status</label>
+          <select id="order-edit-status"><option value="need-to-order">Need to order</option><option value="ordered">Ordered</option><option value="in-transit">In transit</option><option value="delivered">Delivered</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>ETA / expected date</label><input type="date" id="order-edit-eta"></div>
+        <div class="form-field"><label>Product link (URL)</label><input type="url" id="order-edit-link"></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Notes</label><textarea id="order-edit-notes"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-order&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="saveOrder()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Decision modal -->
+<!-- Plan item modal -->
+<div class="modal-backdrop hidden" id="modal-plan" onclick="if(event.target===this)hideModal(&#39;modal-plan&#39;)">
+  <div class="modal" style="max-width:580px;">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-plan-title">Add plan item</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-plan&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="plan-edit-id">
+      <div class="form-row"><div class="form-field"><label>Title *</label><input type="text" id="plan-edit-title" placeholder="Add a window, remove a wall, new tile..."></div></div>
+      <div class="form-row">
+        <div class="form-field"><label>Room / area</label>
+          <select id="plan-edit-room">
+            <option value="">— select room —</option>
+            <option>Kitchen</option><option>Living room</option><option>Primary bedroom</option>
+            <option>Bathrooms</option><option>Hallway</option><option>Dining room</option>
+            <option>Backyard</option><option>Whole house</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Priority</label>
+          <select id="plan-edit-priority">
+            <option value="necessity">Necessity</option>
+            <option value="nice-to-have">Nice to have</option>
+            <option value="undecided">Undecided</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Estimated cost ($)</label><input type="number" id="plan-edit-cost" placeholder="0"></div>
+        <div class="form-field"><label>Start date</label><input type="date" id="plan-edit-startdate"></div>
+        <div class="form-field"><label>Target deadline</label><input type="date" id="plan-edit-deadline"></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Notes</label><textarea id="plan-edit-notes" placeholder="Materials, measurements, context..."></textarea></div></div>
+      <div class="form-row">
+        <div class="form-field"><label>Serial numbers / model #</label><input type="text" id="plan-edit-serial" placeholder="e.g. SKU, model number..."></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Link / URL</label><input type="url" id="plan-edit-url" placeholder="Product link, inspiration, spec sheet..."></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-plan&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="savePlan()">Save item</button>
+    </div>
+  </div>
+</div>
+
+<!-- Decision modal (for Decided tab) -->
+<div class="modal-backdrop hidden" id="modal-decision" onclick="if(event.target===this)hideModal(&#39;modal-decision&#39;)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-decision-title">Log a decision</span>
+      <button class="btn btn-icon" onclick="hideModal(&#39;modal-decision&#39;)"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="dc-edit-id">
+      <div class="form-row">
+        <div class="form-field"><label>Topic *</label><input type="text" id="dc-edit-topic" placeholder="What is this decision about?"></div>
+        <div class="form-field"><label>Date decided</label><input type="date" id="dc-edit-date"></div>
+      </div>
+      <div class="form-row"><div class="form-field"><label>Decision *</label><input type="text" id="dc-edit-decision" placeholder="One-line summary of what was decided"></div></div>
+      <div class="form-row"><div class="form-field"><label>Detail / notes</label><textarea id="dc-edit-notes" placeholder="Context, measurements, reasoning, links..."></textarea></div></div>
+      <div class="form-row"><div class="form-field"><label>Alternatives considered</label><textarea id="dc-edit-alternatives" placeholder="What else did you consider?"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal(&#39;modal-decision&#39;)">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDecision()">Save decision</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Reno Dashboard — Persistent Data Store ──
+// All data lives in localStorage under the key 'renoData'
+
+const STORE_KEY = 'renoData_v1';
+
+const DEFAULT_DATA = {
+  meta: {
+    projectName: "Hanna & Connor's Renovation",
+    address: '',
+    totalBudget: 50000,
+    moveInDate: '2025-09-30',
+    housewarmingDate: '2025-10-18',
+    christmasDate: '2025-12-24',
+    createdAt: new Date().toISOString(),
+  },
+
+  tasks: [
+    { id: 't1', text: 'Schedule asbestos inspection', trade: 'DIY', room: 'Whole house', priority: 'high', status: 'open', dueDate: '', notes: 'Required before ANY demo begins — popcorn ceilings may contain asbestos', createdAt: new Date().toISOString() },
+    { id: 't2', text: 'Verify main water shut-off works', trade: 'DIY', room: 'Utility', priority: 'high', status: 'open', dueDate: '', notes: 'Confirm before demo day — do not assume it works', createdAt: new Date().toISOString() },
+    { id: 't3', text: 'Get 2–3 HVAC reroute quotes', trade: 'HVAC', room: 'Kitchen / Hallway', priority: 'high', status: 'open', dueDate: '', notes: 'Must be rerouted to attic before soffit demo begins', createdAt: new Date().toISOString() },
+    { id: 't4', text: 'Confirm solar panel ownership / financing status', trade: 'DIY', room: '', priority: 'high', status: 'open', dueDate: '', notes: 'Leased vs owned determines whether relocation is even possible', createdAt: new Date().toISOString() },
+    { id: 't5', text: 'Remove toilets & vanities (demo prep)', trade: 'Plumber', room: 'Bathrooms', priority: 'med', status: 'open', dueDate: '', notes: 'Do during demo phase so tile can be laid full-floor later', createdAt: new Date().toISOString() },
+    { id: 't6', text: 'Inspect & test salvaged recessed can lights', trade: 'DIY', room: 'Whole house', priority: 'med', status: 'open', dueDate: '', notes: 'Look for remodel/retrofit housings — those are reusable', createdAt: new Date().toISOString() },
+    { id: 't7', text: 'Remove kitchen island', trade: 'DIY', room: 'Kitchen', priority: 'high', status: 'open', dueDate: '', notes: 'SharkBite cap on supply lines after shut-off confirmed', createdAt: new Date().toISOString() },
+    { id: 't8', text: 'Get attic insulation quotes (blown-in)', trade: 'Contractor', room: 'Attic', priority: 'med', status: 'open', dueDate: '', notes: 'Coordinate timing with any ceiling vault decisions — attic is open & unobstructed', createdAt: new Date().toISOString() },
+    { id: 't9', text: 'Pull building permits', trade: 'GC', room: 'Whole house', priority: 'high', status: 'open', dueDate: '', notes: 'Required before structural work, electrical, plumbing changes', createdAt: new Date().toISOString() },
+    { id: 't10', text: 'Demo: remove dropped soffits (after HVAC reroute)', trade: 'DIY', room: 'Kitchen / Hallway', priority: 'high', status: 'open', dueDate: '', notes: 'Do NOT begin before HVAC is rerouted and asbestos is cleared', createdAt: new Date().toISOString() },
+    { id: 't11', text: 'Remove wall between kitchen and back dining room', trade: 'DIY + GC', room: 'Kitchen', priority: 'high', status: 'open', dueDate: '', notes: 'Confirm load-bearing status before demo', createdAt: new Date().toISOString() },
+    { id: 't12', text: 'Open up kitchen pass-through', trade: 'DIY + GC', room: 'Kitchen', priority: 'med', status: 'open', dueDate: '', notes: 'Part of the kitchen → dining room wall removal sequence', createdAt: new Date().toISOString() },
+    { id: 't13', text: 'Plan recessed lighting layout', trade: 'Electrician', room: 'Whole house', priority: 'med', status: 'open', dueDate: '', notes: 'Pocket closets → surface flush mount; open rooms → recessed cans', createdAt: new Date().toISOString() },
+    { id: 't14', text: 'Get 2–3 quotes for GC finish work', trade: 'GC', room: 'Whole house', priority: 'high', status: 'open', dueDate: '', notes: 'Drywall, cabinets, trim, flooring installs', createdAt: new Date().toISOString() },
+    { id: 't15', text: 'Order white upper kitchen cabinets', trade: 'DIY', room: 'Kitchen', priority: 'med', status: 'open', dueDate: '', notes: 'Aesthetic: white uppers, warm wood lowers, brass hardware', createdAt: new Date().toISOString() },
+    { id: 't16', text: 'Source brass cabinet hardware', trade: 'DIY', room: 'Kitchen', priority: 'low', status: 'open', dueDate: '', notes: 'Pulls and knobs — warm brass to match overall aesthetic', createdAt: new Date().toISOString() },
+    { id: 't17', text: 'Evaluate hall closet removal (north wall TV wall)', trade: 'DIY', room: 'Living room', priority: 'low', status: 'open', dueDate: '', notes: 'Could clean up TV wall significantly', createdAt: new Date().toISOString() },
+    { id: 't18', text: 'Backyard: plan concrete removal and paver layout', trade: 'Contractor', room: 'Backyard', priority: 'low', status: 'open', dueDate: '', notes: 'Extend grass over concrete area, add pavers', createdAt: new Date().toISOString() },
+  ],
+
+  milestones: [
+    { id: 'm1', title: 'Asbestos test complete', date: '', status: 'pending', category: 'Pre-demo', notes: 'Blocker — everything waits on this', emoji: '🔬' },
+    { id: 'm2', title: 'HVAC reroute contract signed', date: '2025-07-15', status: 'pending', category: 'Pre-demo', notes: '', emoji: '📋' },
+    { id: 'm3', title: 'All permits pulled', date: '2025-07-20', status: 'pending', category: 'Pre-demo', notes: '', emoji: '📄' },
+    { id: 'm4', title: 'HVAC rerouted to attic', date: '2025-07-31', status: 'pending', category: 'Rough-in', notes: 'Unlocks soffit demo', emoji: '🔧' },
+    { id: 'm5', title: 'Demo day complete', date: '2025-08-07', status: 'pending', category: 'Demo', notes: 'Soffits, walls, island, old tile', emoji: '🔨' },
+    { id: 'm6', title: 'Rough-in inspections pass', date: '2025-08-20', status: 'pending', category: 'Rough-in', notes: 'Plumbing, electrical, HVAC all signed off', emoji: '✅' },
+    { id: 'm7', title: 'Drywall & insulation done', date: '2025-08-31', status: 'pending', category: 'Finish', notes: '', emoji: '🏗️' },
+    { id: 'm8', title: 'Kitchen cabinets & countertops installed', date: '2025-09-10', status: 'pending', category: 'Finish', notes: '', emoji: '🍳' },
+    { id: 'm9', title: 'Flooring complete', date: '2025-09-18', status: 'pending', category: 'Finish', notes: '', emoji: '🪵' },
+    { id: 'm10', title: 'Punch list complete', date: '2025-09-25', status: 'pending', category: 'Finish', notes: '', emoji: '📝' },
+    { id: 'm11', title: '🏡 Move-in ready', date: '2025-09-30', status: 'pending', category: 'Goal', notes: 'Out of rental by Sept 30', emoji: '🏡' },
+    { id: 'm12', title: '🎉 Housewarming party', date: '2025-10-18', status: 'pending', category: 'Goal', notes: 'Fully styled and move-in complete', emoji: '🎉' },
+    { id: 'm13', title: '🎄 Connor\'s family Christmas Eve', date: '2025-12-24', status: 'pending', category: 'Goal', notes: 'Host Christmas Eve party — house fully complete', emoji: '🎄' },
+  ],
+
+  trades: [
+    { id: 'tr1', name: 'Asbestos Inspector', company: '', phone: '', email: '', status: 'urgent', hired: false, quoteAmount: '', responsibilities: 'Popcorn ceiling test before any demo cutting', notes: 'REQUIRED first step — do not demo without this', color: '#C0522A', initials: 'AB' },
+    { id: 'tr2', name: 'HVAC Contractor', company: '', phone: '', email: '', status: 'quoting', hired: false, quoteAmount: '', responsibilities: 'Reroute ductwork from kitchen + hallway soffits up into attic', notes: 'Get 2–3 quotes. Attic is open & accessible — should help with cost', color: '#2A7A6B', initials: 'HV' },
+    { id: 'tr3', name: 'Plumber', company: '', phone: '', email: '', status: 'not-hired', hired: false, quoteAmount: '', responsibilities: 'Cap kitchen island supply lines · Remove toilets & vanities · Verify/replace main shut-off', notes: 'SharkBite cap approach on main shut-off is the reliable path', color: '#1E5A8A', initials: 'PL' },
+    { id: 'tr4', name: 'Electrician', company: '', phone: '', email: '', status: 'not-hired', hired: false, quoteAmount: '', responsibilities: 'Recessed lighting layout & rough-in · Panel inspection · New circuits as needed', notes: 'Plan pocket closet fixtures separately from open-room recessed cans', color: '#9B6A00', initials: 'EL' },
+    { id: 'tr5', name: 'General Contractor', company: '', phone: '', email: '', status: 'not-hired', hired: false, quoteAmount: '', responsibilities: 'Finish work after demo · Drywall · Cabinet install · Trim · Load-bearing wall assessment', notes: 'Get 2–3 quotes for finish work. Confirm wall load-bearing status before demo', color: '#6B3A9E', initials: 'GC' },
+    { id: 'tr6', name: 'Insulation Contractor', company: '', phone: '', email: '', status: 'not-hired', hired: false, quoteAmount: '', responsibilities: 'Blown-in attic insulation · High ROI — currently zero insulation', notes: 'Coordinate timing with ceiling vault decisions. Can cut bills 15–30%', color: '#4A7A2A', initials: 'IN' },
+    { id: 'tr7', name: 'Tile Contractor', company: '', phone: '', email: '', status: 'not-hired', hired: false, quoteAmount: '', responsibilities: 'Bathroom floor tile (full floor after toilet/vanity removal) · Kitchen backsplash', notes: 'Remove toilets first so tile goes under — avoids cutouts', color: '#8A3A3A', initials: 'TI' },
+  ],
+
+  budget: [
+    { id: 'b1', category: 'Kitchen', allocated: 12000, spent: 0, color: '#2A7A6B', notes: 'Cabinets, countertops, appliances, hardware' },
+    { id: 'b2', category: 'Bathrooms', allocated: 10000, spent: 0, color: '#1E5A8A', notes: 'Tile, vanities, toilets, fixtures — full reno both baths' },
+    { id: 'b3', category: 'Contingency', allocated: 10000, spent: 0, color: '#7A7060', notes: '20% buffer — do not touch until needed' },
+    { id: 'b4', category: 'HVAC', allocated: 6000, spent: 0, color: '#9B6A00', notes: 'Duct reroute from soffits to attic' },
+    { id: 'b5', category: 'Flooring', allocated: 5000, spent: 0, color: '#B8860B', notes: 'LVP or hardwood whole house' },
+    { id: 'b6', category: 'Electrical', allocated: 4000, spent: 0, color: '#6B3A9E', notes: 'Recessed lighting, panel work, new circuits' },
+    { id: 'b7', category: 'Demo & hauling', allocated: 2000, spent: 0, color: '#C0522A', notes: 'Dumpster, hauling — much of demo is DIY' },
+    { id: 'b8', category: 'Insulation', allocated: 2500, spent: 0, color: '#4A7A2A', notes: 'Blown-in attic — high ROI' },
+    { id: 'b9', category: 'Plumbing', allocated: 2000, spent: 0, color: '#2A5A7A', notes: 'Island cap, shut-off, vanity removals' },
+    { id: 'b10', category: 'Backyard', allocated: 1500, spent: 0, color: '#7A4A2A', notes: 'Pavers, grass extension — lower priority' },
+    { id: 'b11', category: 'Permits & inspections', allocated: 1500, spent: 0, color: '#5A5248', notes: 'Building permits, asbestos test, final inspections' },
+    { id: 'b12', category: 'Lighting & fixtures', allocated: 2000, spent: 0, color: '#8A3A3A', notes: 'Any fixtures not salvaged from demo site' },
+    { id: 'b13', category: 'Paint', allocated: 1000, spent: 0, color: '#3A6A8A', notes: 'Whole house — plan to DIY rolling' },
+  ],
+
+  invoices: [],
+
+  orders: [
+    { id: 'o1', item: 'SharkBite push-to-connect caps (10-pack)', vendor: 'Home Depot', cost: 28, status: 'need-to-order', eta: '', category: 'Plumbing', notes: 'For capping kitchen island supply lines', link: '' },
+    { id: 'o2', item: 'Brass cabinet pull samples', vendor: 'Amazon / Rejuvenation', cost: 45, status: 'need-to-order', eta: '', category: 'Kitchen', notes: 'Test before committing to full order', link: '' },
+    { id: 'o3', item: 'Recessed retrofit can light housings (salvaged)', vendor: 'Demo site', cost: 0, status: 'need-to-order', eta: '', category: 'Electrical', notes: 'Check for remodel/retrofit type — those are reusable in existing drywall', link: '' },
+  ],
+
+  decisions: [
+    { id: 'd1', date: new Date().toISOString().split('T')[0], topic: 'Kitchen aesthetic', decision: 'White upper cabinets, warm wood tone lowers, brass hardware', alternatives: '', notes: 'Spanish / Mediterranean warmth direction' },
+    { id: 'd2', date: new Date().toISOString().split('T')[0], topic: 'Kitchen island plumbing', decision: 'SharkBite cap on main shut-off — most reliable approach', alternatives: 'Penetrating oil on seized valves — low success odds (~20–30%)', notes: 'Verify main shut-off functions before demo day' },
+    { id: 'd3', date: new Date().toISOString().split('T')[0], topic: 'HVAC duct routing', decision: 'Reroute to attic before soffit demo', alternatives: 'Rebuild soffits — rejected, defeats purpose', notes: 'Attic is open with standard truss framing — feasible' },
+    { id: 'd4', date: new Date().toISOString().split('T')[0], topic: 'Solar panels', decision: 'TBD — confirm ownership/financing status first', alternatives: 'Relocate from demo site vs. new system (30% federal tax credit applies)', notes: 'Relocation reduces removal cost — compare total cost against new system net of credit' },
+  ],
+
+  planItems: [],
+  photos: [],
+  documents: [],
+};
+
+// ── Store API ──
+const Store = {
+  _data: null,
+
+  load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      this._data = raw ? JSON.parse(raw) : this._deepClone(DEFAULT_DATA);
+      // Migrate missing keys from defaults
+      const def = DEFAULT_DATA;
+      if (!this._data.decisions) this._data.decisions = def.decisions;
+      if (!this._data.planItems) this._data.planItems = [];
+      if (!this._data.photos) this._data.photos = [];
+      if (!this._data.documents) this._data.documents = [];
+    } catch(e) {
+      console.warn('Store load error, resetting', e);
+      this._data = this._deepClone(DEFAULT_DATA);
+    }
+    return this;
+  },
+
+  save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(this._data));
+    } catch(e) {
+      console.error('Save failed', e);
+    }
+    return this;
+  },
+
+  get(key) { return this._data[key]; },
+
+  set(key, value) {
+    this._data[key] = value;
+    this.save();
+    return this;
+  },
+
+  getMeta() { return this._data.meta; },
+  setMeta(meta) { this._data.meta = { ...this._data.meta, ...meta }; this.save(); },
+
+  // Tasks
+  getTasks() { return this._data.tasks || []; },
+  addTask(task) {
+    task.id = 't' + Date.now();
+    task.createdAt = new Date().toISOString();
+    this._data.tasks.unshift(task);
+    this.save();
+    return task;
+  },
+  updateTask(id, updates) {
+    const i = this._data.tasks.findIndex(t => t.id === id);
+    if (i > -1) { this._data.tasks[i] = { ...this._data.tasks[i], ...updates }; this.save(); }
+  },
+  deleteTask(id) {
+    this._data.tasks = this._data.tasks.filter(t => t.id !== id);
+    this.save();
+  },
+
+  // Milestones
+  getMilestones() { return this._data.milestones || []; },
+  updateMilestone(id, updates) {
+    const i = this._data.milestones.findIndex(m => m.id === id);
+    if (i > -1) { this._data.milestones[i] = { ...this._data.milestones[i], ...updates }; this.save(); }
+  },
+  addMilestone(m) {
+    m.id = 'ms' + Date.now();
+    this._data.milestones.push(m);
+    this.save();
+    return m;
+  },
+  deleteMilestone(id) {
+    this._data.milestones = this._data.milestones.filter(m => m.id !== id);
+    this.save();
+  },
+
+  // Trades
+  getTrades() { return this._data.trades || []; },
+  addTrade(t) {
+    t.id = 'tr' + Date.now();
+    this._data.trades.push(t);
+    this.save();
+    return t;
+  },
+  updateTrade(id, updates) {
+    const i = this._data.trades.findIndex(t => t.id === id);
+    if (i > -1) { this._data.trades[i] = { ...this._data.trades[i], ...updates }; this.save(); }
+  },
+  deleteTrade(id) {
+    this._data.trades = this._data.trades.filter(t => t.id !== id);
+    this.save();
+  },
+
+  // Budget
+  getBudget() { return this._data.budget || []; },
+  updateBudgetItem(id, updates) {
+    const i = this._data.budget.findIndex(b => b.id === id);
+    if (i > -1) { this._data.budget[i] = { ...this._data.budget[i], ...updates }; this.save(); }
+  },
+  addBudgetItem(b) {
+    b.id = 'b' + Date.now();
+    this._data.budget.push(b);
+    this.save();
+    return b;
+  },
+
+  // Invoices
+  getInvoices() { return this._data.invoices || []; },
+  addInvoice(inv) {
+    inv.id = 'inv' + Date.now();
+    inv.createdAt = new Date().toISOString();
+    this._data.invoices.unshift(inv);
+    this.save();
+    return inv;
+  },
+  updateInvoice(id, updates) {
+    const i = this._data.invoices.findIndex(v => v.id === id);
+    if (i > -1) { this._data.invoices[i] = { ...this._data.invoices[i], ...updates }; this.save(); }
+  },
+  deleteInvoice(id) {
+    this._data.invoices = this._data.invoices.filter(v => v.id !== id);
+    this.save();
+  },
+
+  // Orders
+  getOrders() { return this._data.orders || []; },
+  addOrder(o) {
+    o.id = 'o' + Date.now();
+    this._data.orders.unshift(o);
+    this.save();
+    return o;
+  },
+  updateOrder(id, updates) {
+    const i = this._data.orders.findIndex(o => o.id === id);
+    if (i > -1) { this._data.orders[i] = { ...this._data.orders[i], ...updates }; this.save(); }
+  },
+  deleteOrder(id) {
+    this._data.orders = this._data.orders.filter(o => o.id !== id);
+    this.save();
+  },
+
+  // Decisions log
+  getDecisions() { return this._data.decisions || []; },
+  addDecision(d) {
+    d.id = 'dc' + Date.now();
+    this._data.decisions.unshift(d);
+    this.save();
+    return d;
+  },
+  updateDecision(id, updates) {
+    const i = this._data.decisions.findIndex(d => d.id === id);
+    if (i > -1) { this._data.decisions[i] = { ...this._data.decisions[i], ...updates }; this.save(); }
+  },
+  deleteDecision(id) {
+    this._data.decisions = this._data.decisions.filter(d => d.id !== id);
+    this.save();
+  },
+
+  // Plan items
+  getPlanItems() { return this._data.planItems || []; },
+  addPlanItem(item) {
+    item.id = 'pl' + Date.now();
+    item.createdAt = new Date().toISOString();
+    this._data.planItems.unshift(item);
+    this.save();
+    return item;
+  },
+  updatePlanItem(id, updates) {
+    const i = this._data.planItems.findIndex(p => p.id === id);
+    if (i > -1) { this._data.planItems[i] = { ...this._data.planItems[i], ...updates }; this.save(); }
+  },
+  deletePlanItem(id) {
+    this._data.planItems = this._data.planItems.filter(p => p.id !== id);
+    this.save();
+  },
+  getTotalPlanEstimate() {
+    return this.getPlanItems().reduce((s, p) => s + Number(p.cost || 0), 0);
+  },
+
+  // Computed
+  getTotalSpent() {
+    const inv = this.getInvoices().filter(i => i.status === 'paid').reduce((s, i) => s + Number(i.amount || 0), 0);
+    return inv;
+  },
+  getTotalAllocated() {
+    return this.getBudget().reduce((s, b) => s + Number(b.allocated || 0), 0);
+  },
+  getTaskStats() {
+    const tasks = this.getTasks();
+    const done = tasks.filter(t => t.status === 'done').length;
+    return { total: tasks.length, done, pct: tasks.length ? Math.round((done / tasks.length) * 100) : 0 };
+  },
+  getDaysToMoveIn() {
+    const target = new Date(this.getMeta().moveInDate);
+    const now = new Date();
+    return Math.ceil((target - now) / 86400000);
+  },
+
+  exportJSON() {
+    const blob = new Blob([JSON.stringify(this._data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'reno-dashboard-backup.json'; a.click();
+  },
+
+  importJSON(jsonStr) {
+    try {
+      this._data = JSON.parse(jsonStr);
+      this.save();
+      return true;
+    } catch(e) { return false; }
+  },
+
+  _deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+};
+
+</script>
+<script>
+// ── Reno Dashboard — App ──
+
+// ── Utilities ──
+function fmt$(n) { return '$' + Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 0 }); }
+function fmtDate(d) { if (!d) return '—'; const dt = new Date(d + 'T12:00:00'); return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+function uid() { return '_' + Math.random().toString(36).slice(2, 9); }
+function escHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function toast(msg, dur = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function hideModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+const PRIORITY_LABELS = { high: 'High', med: 'Medium', low: 'Low' };
+const STATUS_COLORS = {
+  'need-to-order': 'badge-danger', 'ordered': 'badge-warn',
+  'in-transit': 'badge-info', 'delivered': 'badge-success',
+};
+const TRADE_STATUS = {
+  'urgent': ['badge-danger', 'Urgent'],
+  'quoting': ['badge-warn', 'Quoting'],
+  'hired': ['badge-success', 'Hired'],
+  'not-hired': ['badge-neutral', 'Not hired'],
+  'complete': ['badge-brass', 'Complete'],
+};
+const INV_STATUS = {
+  'unpaid': ['badge-danger', 'Unpaid'],
+  'paid': ['badge-success', 'Paid'],
+  'disputed': ['badge-warn', 'Disputed'],
+};
+
+// ── Nav ──
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const view = document.getElementById('view-' + name);
+  if (view) view.classList.add('active');
+  document.querySelectorAll(`.nav-item[data-view="${name}"]`).forEach(n => n.classList.add('active'));
+  document.getElementById('page-title').textContent = {
+    dashboard: 'Dashboard', timeline: 'Timeline & Milestones',
+    tasks: 'Tasks', trades: 'Trades & Contacts', budget: 'Budget',
+    invoices: 'Invoices & Receipts', orders: 'Orders & Parts',
+    decisions: 'Planning', docs: 'Photos & Documents', settings: 'Settings'
+  }[name] || name;
+  // Render the active view
+  const renders = {
+    dashboard: renderDashboard, timeline: renderTimeline,
+    tasks: renderTasks, trades: renderTrades, budget: renderBudget,
+    invoices: renderInvoices, orders: renderOrders,
+    decisions: renderPlan, settings: renderSettings,
+  };
+  if (renders[name]) renders[name]();
+}
+
+// ── Dashboard ──
+function renderDashboard() {
+  const meta = Store.getMeta();
+  const taskStats = Store.getTaskStats();
+  const spent = Store.getTotalSpent();
+  const budget = Number(meta.totalBudget);
+  const spentPct = budget ? Math.round((spent / budget) * 100) : 0;
+  const days = Store.getDaysToMoveIn();
+  const orders = Store.getOrders();
+  const openOrders = orders.filter(o => o.status !== 'delivered').length;
+
+  document.getElementById('dash-budget-val').textContent = fmt$(spent);
+  document.getElementById('dash-budget-sub').textContent = 'of ' + fmt$(budget) + ' total';
+  document.getElementById('dash-budget-bar').style.width = spentPct + '%';
+  document.getElementById('dash-budget-bar').className = 'metric-bar-fill' + (spentPct > 90 ? ' danger' : spentPct > 70 ? ' warn' : '');
+
+  document.getElementById('dash-tasks-val').textContent = taskStats.pct + '%';
+  document.getElementById('dash-tasks-sub').textContent = taskStats.done + ' of ' + taskStats.total + ' done';
+  document.getElementById('dash-tasks-bar').style.width = taskStats.pct + '%';
+
+  document.getElementById('dash-days-val').textContent = days > 0 ? days : 'Past!';
+  document.getElementById('dash-days-sub').textContent = 'Target: ' + fmtDate(meta.moveInDate);
+  document.getElementById('dash-days-bar').style.width = Math.min(100, Math.max(0, Math.round(((180 - days) / 180) * 100))) + '%';
+
+  // Sidebar brand sub
+  document.querySelector('.brand-sub').textContent = fmt$(meta.totalBudget) + ' budget · ' + (meta.moveInDate ? new Date(meta.moveInDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'move-in TBD');
+
+  document.getElementById('dash-orders-val').textContent = openOrders;
+  const arriving = orders.filter(o => o.status === 'in-transit').length;
+  document.getElementById('dash-orders-sub').textContent = arriving + ' arriving soon';
+
+  // Sidebar budget
+  document.getElementById('sb-budget-fill').style.width = spentPct + '%';
+  document.getElementById('sb-budget-text').textContent = fmt$(spent) + ' / ' + fmt$(budget);
+
+  // Quick tasks
+  const openTasks = Store.getTasks().filter(t => t.status !== 'done').slice(0, 6);
+  document.getElementById('dash-tasks-list').innerHTML = openTasks.length ? openTasks.map(t => `
+    <tr>
+      <td><span class="priority-dot priority-${escHtml(t.priority)}" title="${escHtml(PRIORITY_LABELS[t.priority])}"></span></td>
+      <td>${escHtml(t.text)}</td>
+      <td><span class="badge badge-neutral">${escHtml(t.trade)}</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="quickDoneTask('${escHtml(t.id)}')">Done</button></td>
+    </tr>
+  `).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--ink-faint);padding:20px;">All tasks complete! 🎉</td></tr>';
+
+  // Upcoming milestones
+  const upcoming = Store.getMilestones().filter(m => m.status !== 'done').slice(0, 5);
+  document.getElementById('dash-milestones').innerHTML = upcoming.map(m => {
+    const dotClass = m.status === 'done' ? 'done' : m.category === 'Goal' ? 'goal' : m.date && new Date(m.date) < new Date(Date.now() + 14 * 86400000) ? 'active' : 'pending';
+    return `<div class="timeline-item">
+      <div class="tl-dot ${dotClass}">${m.status === 'done' ? '✓' : (m.category === 'Goal' ? '★' : '')}</div>
+      <div class="tl-content">
+        <div class="tl-title">${escHtml(m.emoji || '')} ${escHtml(m.title)}</div>
+        <div class="tl-meta">${m.date ? fmtDate(m.date) : 'Date TBD'} · ${escHtml(m.category)}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Budget snapshot
+  const budgetItems = Store.getBudget().slice(0, 7);
+  const totalAlloc = Store.getTotalAllocated();
+  document.getElementById('dash-budget-rows').innerHTML = budgetItems.map(b => {
+    const pct = b.allocated ? Math.round((b.spent / b.allocated) * 100) : 0;
+    return `<div class="budget-row">
+      <div class="budget-cat">${escHtml(b.category)}</div>
+      <div class="budget-bar-wrap"><div class="budget-bar-inner" style="background:${escHtml(b.color)};width:${pct}%"></div></div>
+      <div class="budget-amt">${fmt$(b.allocated)}</div>
+    </div>`;
+  }).join('');
+}
+
+function quickDoneTask(id) {
+  Store.updateTask(id, { status: 'done' });
+  renderDashboard();
+  toast('Task marked done ✓');
+}
+
+// ── Timeline ──
+const PHASE_ORDER = ['Pre-demo', 'Demo', 'Rough-in', 'Finish', 'Goal'];
+
+function renderTimeline() {
+  const milestones = Store.getMilestones();
+  const now = new Date();
+
+  // Sort categories by correct renovation phase order
+  const categories = PHASE_ORDER.filter(p => milestones.some(m => m.category === p));
+  // Add any custom categories not in the standard order
+  milestones.forEach(m => { if (!categories.includes(m.category)) categories.push(m.category); });
+
+  const container = document.getElementById('timeline-list');
+  container.innerHTML = categories.map(cat => {
+    const items = milestones.filter(m => m.category === cat)
+      .sort((a, b) => {
+        if (a.startdate && b.startdate) return new Date(a.startdate) - new Date(b.startdate);
+        if (a.date && b.date) return new Date(a.date) - new Date(b.date);
+        return 0;
+      });
+
+    return `<div style="margin-bottom:28px;">
+      <div class="section-label" style="display:flex;align-items:center;gap:8px;">
+        ${escHtml(cat)}
+        <span style="font-size:10px;color:var(--ink-faint);font-weight:400;text-transform:none;letter-spacing:0;">${items.filter(m=>m.status==='done').length}/${items.length} complete</span>
+      </div>
+      ${items.map(m => {
+        const isLate = m.date && m.status !== 'done' && new Date(m.date + 'T12:00:00') < now;
+        const isStarted = m.startdate && new Date(m.startdate + 'T12:00:00') <= now;
+        const daysUntilDue = m.date ? Math.ceil((new Date(m.date + 'T12:00:00') - now) / 86400000) : null;
+        const upcoming = daysUntilDue !== null && daysUntilDue >= 0 && daysUntilDue <= 14;
+        const dotClass = m.status === 'done' ? 'done' : m.category === 'Goal' ? 'goal' : isStarted ? 'active' : upcoming ? 'active' : 'pending';
+
+        let dateStr = '';
+        if (m.startdate && m.date) dateStr = fmtDate(m.startdate) + ' → ' + fmtDate(m.date);
+        else if (m.date) dateStr = 'Target: ' + fmtDate(m.date);
+        else if (m.startdate) dateStr = 'Starts: ' + fmtDate(m.startdate);
+        else dateStr = 'Date TBD';
+
+        return `<div class="timeline-item">
+          <div class="tl-dot ${dotClass}">${m.status === 'done' ? '✓' : (m.category === 'Goal' ? '★' : (isStarted ? '▶' : ''))}</div>
+          <div class="tl-content">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span class="tl-title">${escHtml(m.emoji || '')} ${escHtml(m.title)}</span>
+              ${isLate ? `<span class="badge badge-danger">⚠ Overdue by ${Math.abs(daysUntilDue)} days</span>` : ''}
+              ${upcoming && !isLate && m.status !== 'done' ? `<span class="badge badge-warn">Due in ${daysUntilDue}d</span>` : ''}
+              ${m.status === 'done' ? '<span class="badge badge-success">✓ Complete</span>' : ''}
+              ${isStarted && m.status !== 'done' && !isLate ? '<span class="badge badge-info">In progress</span>' : ''}
+            </div>
+            <div class="tl-meta">${dateStr}${m.notes ? ' · ' + escHtml(m.notes) : ''}</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0;">
+            ${m.status !== 'done' ? `<button class="btn btn-sm btn-primary" onclick="markMilestoneDone('${m.id}')">✓ Done</button>` : `<button class="btn btn-sm" onclick="markMilestonePending('${m.id}')">Undo</button>`}
+            <button class="btn btn-sm" onclick="editMilestone('${m.id}')"><i class="ti ti-edit"></i></button>
+            <button class="btn btn-sm" onclick="deleteMilestone('${m.id}')"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+}
+
+function deleteMilestone(id) {
+  if (confirm('Delete this milestone?')) { Store.deleteMilestone(id); renderTimeline(); toast('Deleted'); }
+}
+
+function markMilestoneDone(id) {
+  Store.updateMilestone(id, { status: 'done' });
+  renderTimeline(); renderDashboard();
+  toast('Milestone complete! 🎉');
+}
+function markMilestonePending(id) {
+  Store.updateMilestone(id, { status: 'pending' });
+  renderTimeline();
+}
+function editMilestone(id) {
+  const m = Store.getMilestones().find(x => x.id === id);
+  if (!m) return;
+  document.getElementById('ms-edit-id').value = m.id;
+  document.getElementById('ms-edit-title').value = m.title;
+  document.getElementById('ms-edit-startdate').value = m.startdate || '';
+  document.getElementById('ms-edit-date').value = m.date || '';
+  document.getElementById('ms-edit-category').value = m.category;
+  document.getElementById('ms-edit-notes').value = m.notes || '';
+  showModal('modal-milestone');
+}
+function saveMilestone() {
+  const id = document.getElementById('ms-edit-id').value;
+  const data = {
+    title: document.getElementById('ms-edit-title').value.trim(),
+    startdate: document.getElementById('ms-edit-startdate').value,
+    date: document.getElementById('ms-edit-date').value,
+    category: document.getElementById('ms-edit-category').value,
+    notes: document.getElementById('ms-edit-notes').value,
+  };
+  if (!data.title) { alert('Milestone name required'); return; }
+  if (id) { Store.updateMilestone(id, data); } else { Store.addMilestone({ ...data, status: 'pending', emoji: '📌' }); }
+  hideModal('modal-milestone'); renderTimeline(); renderDashboard();
+  toast('Milestone saved');
+}
+function openAddMilestone() {
+  document.getElementById('ms-edit-id').value = '';
+  document.getElementById('ms-edit-title').value = '';
+  document.getElementById('ms-edit-startdate').value = '';
+  document.getElementById('ms-edit-date').value = '';
+  document.getElementById('ms-edit-category').value = 'Pre-demo';
+  document.getElementById('ms-edit-notes').value = '';
+  showModal('modal-milestone');
+}
+
+// ── Tasks ──
+let taskFilter = 'all';
+let taskSearch = '';
+
+const PRIORITY_ORDER = { high: 0, med: 1, low: 2 };
+function sortTasks(tasks) {
+  return tasks.slice().sort((a, b) => {
+    const pa = PRIORITY_ORDER[a.priority] ?? 1;
+    const pb = PRIORITY_ORDER[b.priority] ?? 1;
+    if (pa !== pb) return pa - pb;
+    if (a.dueDate && b.dueDate) return new Date(a.dueDate) - new Date(b.dueDate);
+    if (a.dueDate) return -1;
+    if (b.dueDate) return 1;
+    return 0;
+  });
+}
+
+function renderTasks() {
+  let tasks = Store.getTasks();
+  if (taskFilter !== 'all') tasks = tasks.filter(t => t.trade === taskFilter || (taskFilter === 'open' && t.status !== 'done') || (taskFilter === 'done' && t.status === 'done'));
+  if (taskSearch) tasks = tasks.filter(t => t.text.toLowerCase().includes(taskSearch) || (t.notes || '').toLowerCase().includes(taskSearch));
+  const open = sortTasks(tasks.filter(t => t.status !== 'done'));
+  const done = sortTasks(tasks.filter(t => t.status === 'done'));
+
+  const rowHtml = (t) => `
+    <tr class="${t.status === 'done' ? 'opacity-50' : ''}">
+      <td><span class="priority-dot priority-${escHtml(t.priority)}"></span></td>
+      <td>
+        <div style="font-weight:500;${t.status === 'done' ? 'text-decoration:line-through;color:var(--ink-faint)' : ''}">${escHtml(t.text)}</div>
+        ${t.room ? `<div style="font-size:11px;color:var(--ink-faint);">${escHtml(t.room)}</div>` : ''}
+        ${t.notes ? `<div style="font-size:11px;color:var(--ink-muted);margin-top:2px;">${escHtml(t.notes)}</div>` : ''}
+      </td>
+      <td><span class="badge badge-neutral">${escHtml(t.trade)}</span></td>
+      <td>${t.dueDate ? fmtDate(t.dueDate) : '—'}</td>
+      <td>
+        <div class="actions">
+          ${t.status !== 'done' ? `<button class="btn btn-sm btn-primary" onclick="doneTask('${t.id}')">✓</button>` : `<button class="btn btn-sm" onclick="reopenTask('${t.id}')">↩</button>`}
+          <button class="btn btn-sm" onclick="editTask('${t.id}')"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm" onclick="deleteTask('${t.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
+    </tr>`;
+
+  document.getElementById('tasks-table-body').innerHTML = open.map(rowHtml).join('') +
+    (done.length ? `<tr><td colspan="5" style="padding:12px;font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;">Completed (${done.length})</td></tr>` + done.map(rowHtml).join('') : '');
+}
+
+function doneTask(id) { Store.updateTask(id, { status: 'done' }); renderTasks(); renderDashboard(); toast('Task done ✓'); }
+function reopenTask(id) { Store.updateTask(id, { status: 'open' }); renderTasks(); toast('Task reopened'); }
+function deleteTask(id) { if (confirm('Delete this task?')) { Store.deleteTask(id); renderTasks(); toast('Task deleted'); } }
+
+function editTask(id) {
+  const t = Store.getTasks().find(x => x.id === id);
+  if (!t) return;
+  document.getElementById('task-edit-id').value = t.id;
+  document.getElementById('task-edit-text').value = t.text;
+  document.getElementById('task-edit-trade').value = t.trade;
+  document.getElementById('task-edit-room').value = t.room || '';
+  document.getElementById('task-edit-priority').value = t.priority;
+  document.getElementById('task-edit-due').value = t.dueDate || '';
+  document.getElementById('task-edit-notes').value = t.notes || '';
+  showModal('modal-task');
+}
+function openAddTask() {
+  document.getElementById('task-edit-id').value = '';
+  document.getElementById('task-edit-text').value = '';
+  document.getElementById('task-edit-trade').value = 'DIY';
+  document.getElementById('task-edit-room').value = '';
+  document.getElementById('task-edit-priority').value = 'med';
+  document.getElementById('task-edit-due').value = '';
+  document.getElementById('task-edit-notes').value = '';
+  showModal('modal-task');
+}
+function saveTask() {
+  const id = document.getElementById('task-edit-id').value;
+  const data = {
+    text: document.getElementById('task-edit-text').value.trim(),
+    trade: document.getElementById('task-edit-trade').value,
+    room: document.getElementById('task-edit-room').value,
+    priority: document.getElementById('task-edit-priority').value,
+    dueDate: document.getElementById('task-edit-due').value,
+    notes: document.getElementById('task-edit-notes').value,
+    status: 'open',
+  };
+  if (!data.text) { alert('Task name required'); return; }
+  if (id) { Store.updateTask(id, data); } else { Store.addTask(data); }
+  hideModal('modal-task'); renderTasks(); renderDashboard();
+  toast('Task saved');
+}
+function filterTasks(f, el) {
+  taskFilter = f;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderTasks();
+}
+function searchTasks(val) { taskSearch = val.toLowerCase(); renderTasks(); }
+
+// ── Trades ──
+function renderTrades() {
+  const trades = Store.getTrades();
+  document.getElementById('trades-list').innerHTML = trades.map(t => {
+    const [badgeClass, badgeLabel] = TRADE_STATUS[t.status] || ['badge-neutral', t.status];
+    return `<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="trade-avatar" style="background:${escHtml(t.color)}22;color:${escHtml(t.color)}">${escHtml(t.initials)}</div>
+          <div>
+            <div style="font-weight:500">${escHtml(t.name)}</div>
+            ${t.company ? `<div style="font-size:12px;color:var(--ink-muted)">${escHtml(t.company)}</div>` : ''}
+          </div>
+        </div>
+      </td>
+      <td>${t.phone ? `<a href="tel:${escHtml(t.phone)}" style="color:var(--teal)">${escHtml(t.phone)}</a>` : '<span style="color:var(--ink-faint)">—</span>'}</td>
+      <td>${escHtml(t.responsibilities)}</td>
+      <td>${t.quoteAmount ? fmt$(t.quoteAmount) : '—'}</td>
+      <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+      <td>
+        <div class="actions">
+          <button class="btn btn-sm" onclick="editTrade('${t.id}')"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm" onclick="deleteTrade('${t.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function editTrade(id) {
+  const t = Store.getTrades().find(x => x.id === id);
+  if (!t) return;
+  ['id','name','company','phone','email','status','quoteAmount','responsibilities','notes'].forEach(k => {
+    const el = document.getElementById('trade-edit-' + k);
+    if (el) el.value = t[k] || '';
+  });
+  showModal('modal-trade');
+}
+function openAddTrade() {
+  ['id','name','company','phone','email','quoteAmount','responsibilities','notes'].forEach(k => {
+    const el = document.getElementById('trade-edit-' + k);
+    if (el) el.value = '';
+  });
+  document.getElementById('trade-edit-status').value = 'not-hired';
+  showModal('modal-trade');
+}
+function saveTrade() {
+  const id = document.getElementById('trade-edit-id').value;
+  const name = document.getElementById('trade-edit-name').value.trim();
+  if (!name) { alert('Name required'); return; }
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  const colors = ['#2A7A6B','#1E5A8A','#9B6A00','#6B3A9E','#C0522A','#4A7A2A','#8A3A3A'];
+  const data = {
+    name, initials,
+    company: document.getElementById('trade-edit-company').value,
+    phone: document.getElementById('trade-edit-phone').value,
+    email: document.getElementById('trade-edit-email').value,
+    status: document.getElementById('trade-edit-status').value,
+    quoteAmount: document.getElementById('trade-edit-quoteAmount').value,
+    responsibilities: document.getElementById('trade-edit-responsibilities').value,
+    notes: document.getElementById('trade-edit-notes').value,
+    color: colors[Store.getTrades().length % colors.length],
+  };
+  if (id) { Store.updateTrade(id, data); } else { Store.addTrade(data); }
+  hideModal('modal-trade'); renderTrades();
+  toast('Trade contact saved');
+}
+function deleteTrade(id) { if (confirm('Remove this trade?')) { Store.deleteTrade(id); renderTrades(); toast('Removed'); } }
+
+// ── Budget auto-sync ──
+// Maps invoice trade categories and order categories → budget category names
+const CATEGORY_MAP = {
+  // invoice trade values → budget category
+  'hvac': 'HVAC', 'plumber': 'Plumbing', 'electrician': 'Electrical',
+  'gc': 'Bathrooms', 'materials': null, 'permits': 'Permits & inspections',
+  'other': null,
+  // order category values (user-typed) → budget category (case-insensitive fuzzy match)
+};
+
+function matchBudgetCategory(raw) {
+  if (!raw) return null;
+  const needle = raw.trim().toLowerCase();
+  const budgetItems = Store.getBudget();
+  // Exact match first
+  const exact = budgetItems.find(b => b.category.toLowerCase() === needle);
+  if (exact) return exact;
+  // Partial match
+  const partial = budgetItems.find(b =>
+    b.category.toLowerCase().includes(needle) || needle.includes(b.category.toLowerCase())
+  );
+  return partial || null;
+}
+
+function syncBudgetSpent() {
+  const budgetItems = Store.getBudget();
+  // Reset all auto-tracked spend to 0
+  const manualSpend = {};
+  budgetItems.forEach(b => { manualSpend[b.id] = 0; });
+
+  // Sum paid invoices by category
+  Store.getInvoices().filter(i => i.status === 'paid').forEach(inv => {
+    const amount = Number(inv.amount || 0);
+    // Try matching on budgetCategory field first (explicit), then trade field
+    const categoryRaw = inv.budgetCategory || inv.trade || '';
+    const match = matchBudgetCategory(categoryRaw);
+    if (match) manualSpend[match.id] = (manualSpend[match.id] || 0) + amount;
+  });
+
+  // Sum delivered orders by category
+  Store.getOrders().filter(o => o.status === 'delivered' && o.cost).forEach(order => {
+    const match = matchBudgetCategory(order.category || '');
+    if (match) manualSpend[match.id] = (manualSpend[match.id] || 0) + Number(order.cost || 0);
+  });
+
+  // Write back
+  budgetItems.forEach(b => {
+    Store.updateBudgetItem(b.id, { spent: manualSpend[b.id] || 0 });
+  });
+}
+
+// ── Budget ──
+function renderBudget() {
+  const items = Store.getBudget();
+  const totalAlloc = items.reduce((s, b) => s + Number(b.allocated), 0);
+  const totalSpent = items.reduce((s, b) => s + Number(b.spent), 0);
+  const meta = Store.getMeta();
+  const budget = Number(meta.totalBudget);
+
+  // Calculate plan estimates per budget category
+  const planItems = Store.getPlanItems();
+  const planByCategory = {};
+  planItems.forEach(p => {
+    if (!p.cost || !p.room) return;
+    const match = matchBudgetCategory(p.room);
+    if (match) planByCategory[match.id] = (planByCategory[match.id] || 0) + Number(p.cost);
+  });
+
+  const totalPlan = Object.values(planByCategory).reduce((s, v) => s + v, 0);
+
+  document.getElementById('budget-total').textContent = fmt$(budget);
+  document.getElementById('budget-plan-est').textContent = totalPlan > 0 ? fmt$(totalPlan) : '—';
+  document.getElementById('budget-plan-sub').textContent = totalPlan > 0 ? 'from ' + planItems.length + ' plan item' + (planItems.length === 1 ? '' : 's') : 'No plan items yet';
+  document.getElementById('budget-spent').textContent = fmt$(totalSpent);
+  document.getElementById('budget-remaining').textContent = fmt$(budget - totalSpent);
+
+  document.getElementById('budget-rows').innerHTML = items.map(b => {
+    const pct = b.allocated ? Math.min(100, Math.round((b.spent / b.allocated) * 100)) : 0;
+    const overBudget = b.spent > b.allocated;
+    const planAmt = planByCategory[b.id] || 0;
+    return `<tr>
+      <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:2px;background:${escHtml(b.color)};display:inline-block;"></span>${escHtml(b.category)}</span></td>
+      <td>${fmt$(b.allocated)}</td>
+      <td style="color:${planAmt > b.allocated ? 'var(--danger)' : 'var(--brass)'};">${planAmt > 0 ? fmt$(planAmt) : '—'}</td>
+      <td>${fmt$(b.spent)}</td>
+      <td style="color:${overBudget ? 'var(--danger)' : 'var(--success)'}">${fmt$(b.allocated - b.spent)}</td>
+      <td style="width:120px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="progress-bar" style="flex:1"><div class="progress-fill ${overBudget ? 'danger' : ''}" style="width:${pct}%"></div></div>
+          <span style="font-size:11px;color:var(--ink-muted);width:30px">${pct}%</span>
+        </div>
+      </td>
+      <td><button class="btn btn-sm" onclick="editBudget('${b.id}')"><i class="ti ti-edit"></i></button></td>
+    </tr>`;
+  }).join('') + `<tr style="font-weight:600;border-top:2px solid var(--sand-border)">
+    <td>Total</td><td>${fmt$(totalAlloc)}</td><td style="color:var(--brass)">${totalPlan > 0 ? fmt$(totalPlan) : '—'}</td><td>${fmt$(totalSpent)}</td>
+    <td style="color:var(--success)">${fmt$(budget - totalSpent)}</td><td></td><td></td>
+  </tr>`;
+}
+function editBudget(id) {
+  const b = Store.getBudget().find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('budget-edit-id').value = b.id;
+  document.getElementById('budget-edit-category').value = b.category;
+  document.getElementById('budget-edit-allocated').value = b.allocated;
+  document.getElementById('budget-edit-spent').value = b.spent;
+  document.getElementById('budget-edit-notes').value = b.notes || '';
+  showModal('modal-budget');
+}
+function saveBudgetItem() {
+  const id = document.getElementById('budget-edit-id').value;
+  const data = {
+    category: document.getElementById('budget-edit-category').value,
+    allocated: Number(document.getElementById('budget-edit-allocated').value) || 0,
+    spent: Number(document.getElementById('budget-edit-spent').value) || 0,
+    notes: document.getElementById('budget-edit-notes').value,
+  };
+  if (id) { Store.updateBudgetItem(id, data); } else { Store.addBudgetItem({ ...data, color: '#888780' }); }
+  hideModal('modal-budget'); renderBudget(); renderDashboard();
+  toast('Budget updated');
+}
+function openAddBudget() {
+  document.getElementById('budget-edit-id').value = '';
+  document.getElementById('budget-edit-category').value = '';
+  document.getElementById('budget-edit-allocated').value = '';
+  document.getElementById('budget-edit-spent').value = '0';
+  document.getElementById('budget-edit-notes').value = '';
+  showModal('modal-budget');
+}
+
+// ── Invoices ──
+function renderInvoices() {
+  const invoices = Store.getInvoices();
+  const total = invoices.reduce((s, i) => s + Number(i.amount || 0), 0);
+  const paid = invoices.filter(i => i.status === 'paid').reduce((s, i) => s + Number(i.amount || 0), 0);
+  document.getElementById('inv-total').textContent = fmt$(total);
+  document.getElementById('inv-paid').textContent = fmt$(paid);
+  document.getElementById('inv-outstanding').textContent = fmt$(total - paid);
+
+  document.getElementById('invoices-list').innerHTML = invoices.length ? invoices.map(inv => {
+    const [bc, bl] = INV_STATUS[inv.status] || ['badge-neutral', inv.status];
+    return `<tr>
+      <td>${fmtDate(inv.date)}</td>
+      <td><div style="font-weight:500">${escHtml(inv.vendor)}</div>${inv.description ? `<div style="font-size:12px;color:var(--ink-muted)">${escHtml(inv.description)}</div>` : ''}</td>
+      <td><span class="badge badge-neutral">${escHtml(inv.trade || '—')}</span></td>
+      <td style="font-weight:500">${fmt$(inv.amount)}</td>
+      <td><span class="badge ${bc}">${bl}</span></td>
+      <td>
+        <div class="actions">
+          ${inv.status === 'unpaid' ? `<button class="btn btn-sm btn-primary" onclick="markInvPaid('${inv.id}')">Mark paid</button>` : ''}
+          <button class="btn btn-sm" onclick="deleteInvoice('${inv.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="6"><div class="empty-state"><i class="ti ti-file-invoice"></i><h3>No invoices yet</h3><p>Add invoices as contractors send them</p></div></td></tr>`;
+}
+function openAddInvoice() { showModal('modal-invoice'); }
+function saveInvoice() {
+  const data = {
+    date: document.getElementById('inv-edit-date').value,
+    vendor: document.getElementById('inv-edit-vendor').value.trim(),
+    description: document.getElementById('inv-edit-desc').value,
+    trade: document.getElementById('inv-edit-trade').value,
+    budgetCategory: document.getElementById('inv-edit-budgetcat').value,
+    amount: Number(document.getElementById('inv-edit-amount').value) || 0,
+    status: document.getElementById('inv-edit-status').value,
+    notes: document.getElementById('inv-edit-notes').value,
+  };
+  if (!data.vendor) { alert('Vendor required'); return; }
+  Store.addInvoice(data);
+  hideModal('modal-invoice');
+  ['inv-edit-vendor','inv-edit-desc','inv-edit-amount','inv-edit-notes','inv-edit-budgetcat'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  syncBudgetSpent(); renderInvoices(); renderDashboard(); renderBudget();
+  toast('Invoice added');
+}
+function markInvPaid(id) {
+  Store.updateInvoice(id, { status: 'paid' });
+  syncBudgetSpent(); renderInvoices(); renderDashboard(); renderBudget();
+  toast('Invoice marked paid ✓');
+}
+function deleteInvoice(id) {
+  if (confirm('Delete invoice?')) {
+    Store.deleteInvoice(id);
+    syncBudgetSpent(); renderInvoices(); renderDashboard(); renderBudget();
+    toast('Deleted');
+  }
+}
+
+// ── Orders ──
+function renderOrders() {
+  const orders = Store.getOrders();
+  const filterEl = document.getElementById('order-filter');
+  const filter = filterEl ? filterEl.value : 'all';
+  const filtered = filter === 'all' ? orders : orders.filter(o => o.status === filter);
+
+  document.getElementById('orders-list').innerHTML = filtered.length ? filtered.map(o => {
+    const [bc, bl] = [STATUS_COLORS[o.status] || 'badge-neutral', {
+      'need-to-order': 'Need to order', 'ordered': 'Ordered',
+      'in-transit': 'In transit', 'delivered': 'Delivered'
+    }[o.status] || o.status];
+    return `<tr>
+      <td><div style="font-weight:500">${escHtml(o.item)}</div>${o.notes ? `<div style="font-size:12px;color:var(--ink-muted)">${escHtml(o.notes)}</div>` : ''}</td>
+      <td>${escHtml(o.vendor || '—')}</td>
+      <td><span class="badge badge-neutral">${escHtml(o.category || '—')}</span></td>
+      <td style="font-weight:500">${o.cost ? fmt$(o.cost) : '—'}</td>
+      <td>${o.eta ? fmtDate(o.eta) : '—'}</td>
+      <td><span class="badge ${bc}">${bl}</span></td>
+      <td>
+        <div class="actions">
+          <button class="btn btn-sm" onclick="editOrder('${o.id}')"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm" onclick="deleteOrder('${o.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="7"><div class="empty-state"><i class="ti ti-package"></i><h3>No orders here</h3></div></td></tr>`;
+}
+function editOrder(id) {
+  const o = Store.getOrders().find(x => x.id === id);
+  if (!o) return;
+  document.getElementById('order-edit-id').value = o.id;
+  document.getElementById('order-edit-item').value = o.item;
+  document.getElementById('order-edit-vendor').value = o.vendor || '';
+  document.getElementById('order-edit-category').value = o.category || '';
+  document.getElementById('order-edit-cost').value = o.cost || '';
+  document.getElementById('order-edit-status').value = o.status;
+  document.getElementById('order-edit-eta').value = o.eta || '';
+  document.getElementById('order-edit-notes').value = o.notes || '';
+  document.getElementById('order-edit-link').value = o.link || '';
+  showModal('modal-order');
+}
+function openAddOrder() {
+  document.getElementById('order-edit-id').value = '';
+  ['item','vendor','category','cost','eta','notes','link'].forEach(k => { document.getElementById('order-edit-' + k).value = ''; });
+  document.getElementById('order-edit-status').value = 'need-to-order';
+  showModal('modal-order');
+}
+function saveOrder() {
+  const id = document.getElementById('order-edit-id').value;
+  const data = {
+    item: document.getElementById('order-edit-item').value.trim(),
+    vendor: document.getElementById('order-edit-vendor').value,
+    category: document.getElementById('order-edit-category').value,
+    cost: Number(document.getElementById('order-edit-cost').value) || 0,
+    status: document.getElementById('order-edit-status').value,
+    eta: document.getElementById('order-edit-eta').value,
+    notes: document.getElementById('order-edit-notes').value,
+    link: document.getElementById('order-edit-link').value,
+  };
+  if (!data.item) { alert('Item name required'); return; }
+  if (id) { Store.updateOrder(id, data); } else { Store.addOrder(data); }
+  syncBudgetSpent(); hideModal('modal-order'); renderOrders(); renderDashboard();
+  toast('Order saved');
+}
+function deleteOrder(id) {
+  if (confirm('Remove this order?')) {
+    Store.deleteOrder(id);
+    syncBudgetSpent(); renderOrders(); renderDashboard();
+    toast('Removed');
+  }
+}
+
+// ── Decisions ──
+// ── Planning ──
+const PRIORITY_BADGE = {
+  'necessity': ['badge-danger', 'Necessity'],
+  'nice-to-have': ['badge-info', 'Nice to have'],
+  'undecided': ['badge-neutral', 'Undecided'],
+};
+
+let currentPlanTab = 'plan';
+
+function switchPlanTab(tab, el) {
+  currentPlanTab = tab;
+  document.querySelectorAll('#planning-tab-bar .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('plan-tab').style.display = tab === 'plan' ? 'block' : 'none';
+  document.getElementById('decided-tab').style.display = tab === 'decided' ? 'block' : 'none';
+  if (tab === 'plan') renderPlan();
+  else renderDecisions();
+}
+
+function renderDecisions() {
+  const decisions = Store.getDecisions();
+  document.getElementById('decisions-list').innerHTML = decisions.length ? decisions.map(d => `
+    <div class="card" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span style="font-size:11px;color:var(--ink-faint);">${fmtDate(d.date)}</span>
+            <span class="badge badge-brass">${escHtml(d.topic)}</span>
+          </div>
+          <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px;">${escHtml(d.decision)}</div>
+          ${d.notes ? `<div style="font-size:13px;color:var(--ink-soft);margin-bottom:4px;">${escHtml(d.notes)}</div>` : ''}
+          ${d.alternatives ? `<div style="font-size:12px;color:var(--ink-muted);">Considered: ${escHtml(d.alternatives)}</div>` : ''}
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0;">
+          <button class="btn btn-sm" onclick="editDecision('${d.id}')"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm" onclick="deleteDecision('${d.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('') : `<div class="empty-state"><i class="ti ti-check-circle"></i><h3>No decisions yet</h3><p>Mark plan items as "Decided" or log decisions directly</p></div>`;
+}
+
+function renderPlan() {
+  const items = Store.getPlanItems();
+  const statusFilter = document.getElementById('plan-filter-status')?.value || 'all';
+  const roomFilter = document.getElementById('plan-filter-room')?.value || 'all';
+  const now = new Date();
+
+  let filtered = items;
+  if (statusFilter !== 'all') filtered = filtered.filter(p => p.priority === statusFilter);
+  if (roomFilter !== 'all') filtered = filtered.filter(p => p.room === roomFilter);
+
+  // Sort: necessity first, then nice-to-have, then undecided; within each by deadline
+  const priorityOrder = { necessity: 0, 'nice-to-have': 1, undecided: 2 };
+  filtered = filtered.slice().sort((a, b) => {
+    const pa = priorityOrder[a.priority] ?? 2;
+    const pb = priorityOrder[b.priority] ?? 2;
+    if (pa !== pb) return pa - pb;
+    if (a.deadline && b.deadline) return new Date(a.deadline) - new Date(b.deadline);
+    if (a.deadline) return -1;
+    if (b.deadline) return 1;
+    return 0;
+  });
+
+  const totalEstimate = items.reduce((s, p) => s + Number(p.cost || 0), 0);
+
+  document.getElementById('plan-list').innerHTML = `
+    ${totalEstimate > 0 ? `<div style="margin-bottom:12px;padding:10px 14px;background:var(--brass-pale);border:1px solid var(--brass-light);border-radius:var(--radius-md);font-size:13px;color:var(--ink-soft);">
+      <strong>Plan estimate total:</strong> ${fmt$(totalEstimate)} across ${items.length} items
+    </div>` : ''}
+    ${filtered.length ? filtered.map(p => {
+      const [bc, bl] = PRIORITY_BADGE[p.priority] || ['badge-neutral', p.priority];
+      const isLate = p.deadline && new Date(p.deadline + 'T12:00:00') < now;
+      const daysLeft = p.deadline ? Math.ceil((new Date(p.deadline + 'T12:00:00') - now) / 86400000) : null;
+      return `<div class="card" style="margin-bottom:12px;cursor:default;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+              <span class="badge ${bc}">${bl}</span>
+              ${p.room ? `<span class="badge badge-neutral">${escHtml(p.room)}</span>` : ''}
+              ${isLate ? `<span class="badge badge-danger">⚠ Overdue</span>` : ''}
+              ${daysLeft !== null && daysLeft >= 0 && daysLeft <= 14 ? `<span class="badge badge-warn">Due in ${daysLeft}d</span>` : ''}
+            </div>
+            <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;">${escHtml(p.title)}</div>
+            ${p.notes ? `<div style="font-size:13px;color:var(--ink-soft);margin-bottom:6px;">${escHtml(p.notes)}</div>` : ''}
+            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-muted);">
+              ${p.cost ? `<span>💰 Est. ${fmt$(p.cost)}</span>` : ''}
+              ${p.startdate && p.deadline ? `<span>📅 ${fmtDate(p.startdate)} → ${fmtDate(p.deadline)}</span>` : p.deadline ? `<span>📅 By ${fmtDate(p.deadline)}</span>` : ''}
+              ${p.serial ? `<span>🔖 ${escHtml(p.serial)}</span>` : ''}
+              ${p.url ? `<a href="${escHtml(p.url)}" target="_blank" style="color:var(--teal);text-decoration:none;">🔗 Link</a>` : ''}
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0;flex-direction:column;align-items:flex-end;">
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm" onclick="editPlan('${p.id}')"><i class="ti ti-edit"></i></button>
+              <button class="btn btn-sm" onclick="deletePlan('${p.id}')"><i class="ti ti-trash"></i></button>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="markDecided('${p.id}')" style="white-space:nowrap;">✓ Mark decided</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('') : `<div class="empty-state"><i class="ti ti-clipboard-list"></i><h3>No plan items yet</h3><p>Add windows, walls, fixtures, materials — everything you're considering for the reno</p></div>`}
+  `;
+}
+
+function openAddPlan() {
+  document.getElementById('plan-edit-id').value = '';
+  document.getElementById('modal-plan-title').textContent = 'Add plan item';
+  ['title','serial','url','notes'].forEach(k => document.getElementById('plan-edit-' + k).value = '');
+  document.getElementById('plan-edit-cost').value = '';
+  document.getElementById('plan-edit-startdate').value = '';
+  document.getElementById('plan-edit-deadline').value = '';
+  document.getElementById('plan-edit-room').value = '';
+  document.getElementById('plan-edit-priority').value = 'undecided';
+  showModal('modal-plan');
+}
+
+function editPlan(id) {
+  const p = Store.getPlanItems().find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('plan-edit-id').value = p.id;
+  document.getElementById('modal-plan-title').textContent = 'Edit plan item';
+  document.getElementById('plan-edit-title').value = p.title || '';
+  document.getElementById('plan-edit-room').value = p.room || '';
+  document.getElementById('plan-edit-priority').value = p.priority || 'undecided';
+  document.getElementById('plan-edit-cost').value = p.cost || '';
+  document.getElementById('plan-edit-startdate').value = p.startdate || '';
+  document.getElementById('plan-edit-deadline').value = p.deadline || '';
+  document.getElementById('plan-edit-notes').value = p.notes || '';
+  document.getElementById('plan-edit-serial').value = p.serial || '';
+  document.getElementById('plan-edit-url').value = p.url || '';
+  showModal('modal-plan');
+}
+
+function savePlan() {
+  const id = document.getElementById('plan-edit-id').value;
+  const data = {
+    title: document.getElementById('plan-edit-title').value.trim(),
+    room: document.getElementById('plan-edit-room').value,
+    priority: document.getElementById('plan-edit-priority').value,
+    cost: Number(document.getElementById('plan-edit-cost').value) || 0,
+    startdate: document.getElementById('plan-edit-startdate').value,
+    deadline: document.getElementById('plan-edit-deadline').value,
+    notes: document.getElementById('plan-edit-notes').value,
+    serial: document.getElementById('plan-edit-serial').value,
+    url: document.getElementById('plan-edit-url').value,
+  };
+  if (!data.title) { alert('Title required'); return; }
+  if (id) { Store.updatePlanItem(id, data); } else { Store.addPlanItem(data); }
+  hideModal('modal-plan');
+  renderPlan();
+  toast('Plan item saved');
+}
+
+function deletePlan(id) {
+  if (confirm('Remove this plan item?')) { Store.deletePlanItem(id); renderPlan(); toast('Removed'); }
+}
+
+function markDecided(planId) {
+  const p = Store.getPlanItems().find(x => x.id === planId);
+  if (!p) return;
+  // Pre-fill decision modal from plan item
+  document.getElementById('dc-edit-id').value = '';
+  document.getElementById('modal-decision-title').textContent = 'Mark as decided';
+  document.getElementById('dc-edit-topic').value = p.title;
+  document.getElementById('dc-edit-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('dc-edit-decision').value = p.title;
+  document.getElementById('dc-edit-notes').value = p.notes || '';
+  document.getElementById('dc-edit-alternatives').value = '';
+  // Store which plan item to remove after saving
+  document.getElementById('modal-decision').dataset.planId = planId;
+  showModal('modal-decision');
+}
+
+// ── Decisions (Decided tab) ──
+function openAddDecision() {
+  document.getElementById('dc-edit-id').value = '';
+  document.getElementById('modal-decision-title').textContent = 'Log a decision';
+  document.getElementById('modal-decision').dataset.planId = '';
+  ['topic','decision','notes','alternatives'].forEach(k => document.getElementById('dc-edit-' + k).value = '');
+  document.getElementById('dc-edit-date').value = new Date().toISOString().split('T')[0];
+  showModal('modal-decision');
+}
+
+function editDecision(id) {
+  const d = Store.getDecisions().find(x => x.id === id);
+  if (!d) return;
+  document.getElementById('dc-edit-id').value = d.id;
+  document.getElementById('modal-decision-title').textContent = 'Edit decision';
+  document.getElementById('modal-decision').dataset.planId = '';
+  document.getElementById('dc-edit-topic').value = d.topic || '';
+  document.getElementById('dc-edit-date').value = d.date || '';
+  document.getElementById('dc-edit-decision').value = d.decision || '';
+  document.getElementById('dc-edit-notes').value = d.notes || '';
+  document.getElementById('dc-edit-alternatives').value = d.alternatives || '';
+  showModal('modal-decision');
+}
+
+function saveDecision() {
+  const id = document.getElementById('dc-edit-id').value;
+  const planId = document.getElementById('modal-decision').dataset.planId;
+  const data = {
+    date: document.getElementById('dc-edit-date').value || new Date().toISOString().split('T')[0],
+    topic: document.getElementById('dc-edit-topic').value.trim(),
+    decision: document.getElementById('dc-edit-decision').value.trim(),
+    notes: document.getElementById('dc-edit-notes').value,
+    alternatives: document.getElementById('dc-edit-alternatives').value,
+  };
+  if (!data.decision) { alert('Decision required'); return; }
+  if (id) { Store.updateDecision(id, data); } else { Store.addDecision(data); }
+  // If this came from "Mark decided", remove the plan item
+  if (planId) { Store.deletePlanItem(planId); }
+  hideModal('modal-decision');
+  renderDecisions();
+  if (planId) renderPlan();
+  toast('Decision saved ✓');
+}
+
+function deleteDecision(id) {
+  if (confirm('Delete this decision?')) { Store.deleteDecision(id); renderDecisions(); toast('Deleted'); }
+}
+
+// ── Settings ──
+function renderSettings() {
+  const meta = Store.getMeta();
+  document.getElementById('set-projectName').value = meta.projectName || '';
+  document.getElementById('set-address').value = meta.address || '';
+  document.getElementById('set-totalBudget').value = meta.totalBudget || 50000;
+  document.getElementById('set-moveInDate').value = meta.moveInDate || '';
+  document.getElementById('set-housewarmingDate').value = meta.housewarmingDate || '';
+  document.getElementById('set-christmasDate').value = meta.christmasDate || '';
+}
+function saveSettings() {
+  Store.setMeta({
+    projectName: document.getElementById('set-projectName').value,
+    address: document.getElementById('set-address').value,
+    totalBudget: Number(document.getElementById('set-totalBudget').value),
+    moveInDate: document.getElementById('set-moveInDate').value,
+    housewarmingDate: document.getElementById('set-housewarmingDate').value,
+    christmasDate: document.getElementById('set-christmasDate').value,
+  });
+  document.querySelector('.brand-title').textContent = document.getElementById('set-projectName').value;
+  toast('Settings saved ✓');
+}
+function resetData() {
+  if (confirm('This will reset ALL data to defaults. Are you sure?')) {
+    localStorage.removeItem('renoData_v1');
+    location.reload();
+  }
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  Store.load();
+  syncBudgetSpent();
+  showView('dashboard');
+  document.getElementById('set-moveInDate') && (document.getElementById('set-moveInDate').value = Store.getMeta().moveInDate);
+});
+
+</script>
+<script>
+function openLink(inputId) {
+  const url = document.getElementById(inputId).value.trim();
+  if (url) window.open(url, '_blank');
+}
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    if (Store.importJSON(e.target.result)) {
+      toast('Data imported! Reloading...');
+      setTimeout(() => location.reload(), 1000);
+    } else {
+      alert('Import failed — invalid file');
+    }
+  };
+  reader.readAsText(file);
+}
+</script>
+
+
+</body></html>
